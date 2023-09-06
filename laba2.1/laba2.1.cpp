@@ -1,9 +1,4 @@
 ﻿// laba2.1.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-/*
-** Binary Search Tree implementation in C++
-** Harish R
-*/
 #include<iostream>
 using namespace std;
 

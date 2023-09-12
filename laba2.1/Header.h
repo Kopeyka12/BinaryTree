@@ -27,10 +27,6 @@ public:
 
     TreeNode(const T& item, TreeNode<T>* lptr = NULL, TreeNode<T>* rptr = NULL);
 
-    //TreeNode(const T& item, TreeNode<T>* lptr, TreeNode<T>* rptr) :
-    //
-    //   data(item), left(lptr), right(rptr) { }
-
     // ћетоды доступа к указател€м на порожденные узлы
 
     TreeNode<T>* Left(void) const;

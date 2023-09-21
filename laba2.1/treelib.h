@@ -1,5 +1,4 @@
 #pragma once
-//#include <iostream>
 //Предварительное описание класса «бинарное дерево поиска»
 
 template <class T>
@@ -10,13 +9,17 @@ template <class T>
 class TreeNode
 
 {
-    //Указатели на левый и правый порожденные узлы
-
-    TreeNode<T>* left;
-
-    TreeNode<T>* right;
+private:
+    
 
 public:
+//Указатели на левый и правый порожденные узлы
+
+    TreeNode<T> *left;
+
+    TreeNode<T> *right;
+
+
     //Открытый элемент данных класса, допускающий обновление
 
     T data;
@@ -25,18 +28,17 @@ public:
 
     //на порожденные узлы
 
-    TreeNode(const T& item, TreeNode<T>* lptr = NULL, TreeNode<T>* rptr = NULL);
+    TreeNode(const T& item, TreeNode<T>* lptr = nullptr, TreeNode<T>* rptr = nullptr);    
 
     // Методы доступа к указателям на порожденные узлы
 
-    TreeNode<T>* Left(void) const;
+    TreeNode<T>* Left() const;
 
-    TreeNode<T>* Right(void) const;
+    TreeNode<T>* Right() const;
 
     // Описание класса BinSTree как дружественного
 
     friend class BinSTree<T>;
-
 };
 
 //Создать объект TreeNode с указательными полями lptr и rptr.
@@ -44,40 +46,53 @@ public:
 //По умолчанию указатели содержат NULL.
 
 template <class T>
-
 TreeNode<T>::TreeNode(const T& item, TreeNode<T>* lptr, TreeNode<T>* rptr) :
     
     data(item), left(lptr), right(rptr) { }
 
+template<class T>
+inline TreeNode<T>* TreeNode<T>::Left() const
+{
+    return left;
+}
+
+template<class T>
+inline TreeNode<T>* TreeNode<T>::Right() const
+{
+    return right;
+}
+
 template <class T>
 
-TreeNode<T>* GetTreeNode(T item, TreeNode<T>* lptr = NULL,
+TreeNode<T>* GetTreeNode(T item, TreeNode<T>* lptr = nullptr,
 
-    TreeNode<T>* rptr = NULL)
+    TreeNode<T>* rptr = nullptr)//
 {
     TreeNode<T>* p;
     //Вызвать new для создания нового узла
+    
     //Передать туда параметры lptr и rptr
+
     p = new TreeNode<T>(item, lptr, rptr);
+
     //Если памяти недостаточно, завершить
+    
     //программу сообщением об ошибке
-    if (p == NULL)
+
+    if (p == nullptr)
     {
         std::cerr << "Ошибка при выделении памяти!\n";
+        
         exit(1);
     }
+    
     //Вернуть указатель на выделенную системой память
+    
     return p;
 }
 
 //Освободить динамическую память, занимаемую данным узлом
-
 template <class T>
+void FreeTreeNode(TreeNode<T>* p) {delete p;}
 
-void FreeTreeNode(TreeNode<T>* p)
 
-{
-
-    delete p;
-
-}

@@ -2,21 +2,58 @@
 //
 
 #include <iostream>
-#include "Header.h"
+#include "treelib.h"
+#include "treenode.h"
 
 using namespace std;
 
+
 int main()
 {
-    TreeNode <int>* root, * lchild, * rchild;
-    TreeNode <int>* p;
-    lchild = new TreeNode<int>(20);
-    rchild = new TreeNode<int>(30);
+    setlocale(LC_ALL, "Russian");
 
-    root = new TreeNode<int>(10, lchild, rchild);
+    //создаётся указатели на узлы дерева 
+    TreeNode<int>* leftleaf, * rightleaf, * root;
+    //создание дерева 
+    root = new TreeNode<int>(10);
 
-    root->data = 50;
+    root->right = new TreeNode<int>(5);
+
+    root->right->right = new TreeNode<int>(4);
+
+    root->right->left= new TreeNode<int>(2);
+
+    root->right->left->left = new TreeNode<int>(12);
+
+    //      10
+    //        \
+    //         5
+    //        / \
+    //       2   4
+    //      /
+    //     12
+
+
+    cout << "Обход дерева по принципу LNR: " << endl;
+    Inorder(root, visit_inc);  //обход дерева и вывод узлов
+    Inorder(root,visit_print);  //обход дерева и вывод узлов
+    std::cout << std::endl;
+    
+    std::cout <<"Обход дерева по принципу LRN: " << std::endl;
+    Postorder(root);
+    std::cout << std::endl;
+    
+    int leafCount = 0;
+    CountLeaf(root, leafCount);
+    cout << "Число листьев = " << leafCount << endl;
+    
+    cout << "Глубина дерева равна = " << Depth(root);
+    
 }
+
+
+
+//посчет узлов(3), вставка(2), удаление дерева, поиск(1)
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"

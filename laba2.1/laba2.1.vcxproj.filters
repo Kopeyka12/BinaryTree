@@ -26,5 +26,8 @@
     <ClInclude Include="treenode.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="binstree.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

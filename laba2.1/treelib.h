@@ -62,8 +62,10 @@ inline TreeNode<T>* TreeNode<T>::Right() const
     return right;
 }
 
-template <class T>
 
+//создает объект TreeNode с указательными полями lptr и rptr
+//по умолчанию указатели nullptr
+template <class T>
 TreeNode<T>* GetTreeNode(T item, TreeNode<T>* lptr = nullptr,
 
     TreeNode<T>* rptr = nullptr)//
@@ -93,6 +95,27 @@ TreeNode<T>* GetTreeNode(T item, TreeNode<T>* lptr = nullptr,
 
 //Освободить динамическую память, занимаемую данным узлом
 template <class T>
-void FreeTreeNode(TreeNode<T>* p) {delete p;}
+void FreeTreeNode(TreeNode<T>* p)
+{
+    delete p;
+}
+//используем обратный аллгоритм прохождения 
+//удаляем каждый узел при его посещении
+template <class T>
+void DeleteTree(TreeNode<T>* t)
+{
+    if (t != nullptr) {
+        DeleteTree(t->Left());
+        DeleteTree(t->Right());
+        FreeTreeNode(t);
+    }
+}
 
-
+//вызфваем ф-ию для удаления узлов дерева
+//затем сбрасываем указатель на его корень в nullptr
+template <class T>
+void ClearTree(TreeNode<T>& t)
+{
+    DeleteTree(t);
+    t = nullptr;
+}

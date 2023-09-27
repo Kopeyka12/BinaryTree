@@ -4,6 +4,7 @@
 #include <iostream>
 #include "treelib.h"
 #include "treenode.h"
+//#include "binstree.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ int main()
     setlocale(LC_ALL, "Russian");
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* leftleaf, * rightleaf, * root;
+    TreeNode<int>* leftleaf, * rightleaf, * root, *root1;
     //создание дерева 
     root = new TreeNode<int>(10);
 
@@ -35,7 +36,7 @@ int main()
 
 
     cout << "Обход дерева по принципу LNR: " << endl;
-    Inorder(root, visit_inc);  //обход дерева и вывод узлов
+    //Inorder(root, visit_inc);  //обход дерева с увеличнием значений узла
     Inorder(root,visit_print);  //обход дерева и вывод узлов
     std::cout << std::endl;
     
@@ -47,13 +48,24 @@ int main()
     CountLeaf(root, leafCount);
     cout << "Число листьев = " << leafCount << endl;
     
-    cout << "Глубина дерева равна = " << Depth(root);
+    cout << "Глубина дерева равна = " << Depth(root) << endl;
+    cout <<"Вывод дерева: " << endl;
+    PrintTree(root, 0);
     
+    cout << endl << "Копия:" << endl;
+    root1 = CopyTree(root);
+    Postorder(root1);
+    cout << endl;
+    PrintTree(root1, 0);
+    
+    
+
+
 }
 
+//todo: посчет узлов(3), вставка(2), удаление дерева, поиск(1)
 
 
-//посчет узлов(3), вставка(2), удаление дерева, поиск(1)
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"

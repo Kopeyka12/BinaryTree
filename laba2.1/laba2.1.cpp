@@ -6,6 +6,7 @@
 #include "treenode.h"
 #include "binstree.h"
 #include <queue>
+#include <vector>
 using namespace std;
 
 
@@ -43,18 +44,19 @@ int main()
     std::cout <<"Обход дерева по принципу LRN: " << std::endl;
     Postorder(root);
     std::cout << std::endl;
+
+    cout << "Обход дерева в ширине: " << endl;
+    LevelScan(root, visit_print);
+
+    cout <<"Вывод дерева: " << endl;
+    PrintTree(root, 0);
     
     int leafCount = 0;
     CountLeaf(root, leafCount);
-    cout << "Число листьев = " << leafCount << endl;
+    cout << endl<<"Число листьев = " << leafCount << endl;
     
     cout << "Глубина дерева равна = " << Depth(root) << endl;
-    cout <<"Вывод дерева: " << endl;
-    PrintTree(root, 0);
-    //AddNode(root, 20);
     
-    cout << "Обход дерева в ширине: " << endl;
-    LevelScan(root, visit_print);
 
     cout << endl << "Копия:" << endl;
     root1 = CopyTree(root);
@@ -62,15 +64,26 @@ int main()
     cout << endl;
     PrintTree(root1, 0);
     
+    cout << endl << "Преобразование Дерева в vector:" << endl;
+    std::vector<int> vec, v;
+    tree2vactor(root1, vec);
+    
+    for (int i = 0; i < vec.size(); i++) {
+       std::cout << vec.at(i) << ' ';
+    }
+
     BinSTree<int> T;
     T.Insert(40);
     T.Insert(70);
     T.Insert(45);
     T.Insert(35);
-    //cout << endl << "Дерево BST:" << endl;
+    T.tree3vactor(v);
     
-
-
+    cout << endl << "Бинарное дерево:" << endl;
+    for (int i = 0; i < v.size(); i++) {
+        std::cout << v.at(i) << ' ';
+    }
+   
 }
 
 //todo: посчет узлов(3), вставка(2), удаление дерева, поиск(1)

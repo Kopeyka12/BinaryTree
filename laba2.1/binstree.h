@@ -4,6 +4,7 @@
 
 #include "treenode.h"
 #include "treelib.h"
+#include <vector>
 
 template <class T>
 class BinSTree
@@ -17,19 +18,12 @@ protected:
 	//число элементов дерева
 	int size;
 	
-	////распределение/освобождение пам€ти
-	//TreeNode<T>* GetTreeNode(const T& item,
-	//	TreeNode<T>* lptr, TreeNode<T>* rptr);
-
-	
-	
-	//void FreeTreeNode(TreeNode<T>* p);
-
-	//используетс€ конструктором, копировани€ и оператором присваивани€
-	//void DeleteTree(TreeNode<T>* t);
+	//void tree2vactor(BinSTree<T>* root, std::vector<T>& vec);
 
 	//используетс€ деструктором, копировани€ и оператором присваивани€
 	TreeNode<T>* FindNode(const T& item, TreeNode<T>*& parent) const;
+
+	
 
 
 public:
@@ -43,6 +37,8 @@ public:
 	void Update(const T& item);
 
 	BinSTree<T>* BSTInorder(BinSTree<T>* parent);
+	
+	void tree3vactor(std::vector<T>& vec);
 };
 
 template<class T>
@@ -181,31 +177,7 @@ void BinSTree<T>::Update(const T& item)
 }
 
 
-//template<class T>
-//TreeNode<T>* BinSTree<T>::GetTreeNode(const T& item, TreeNode<T>* lptr, TreeNode<T>* rptr)
-//{
-//		TreeNode<T>* p;
-//		//¬ызвать new дл€ создани€ нового узла
-//
-//		//ѕередать туда параметры lptr и rptr
-//
-//		p = new TreeNode<T>(item, lptr, rptr);
-//
-//		//≈сли пам€ти недостаточно, завершить
-//
-//		//программу сообщением об ошибке
-//
-//		if (p == nullptr)
-//		{
-//			std::cerr << "ќшибка при выделении пам€ти!\n";
-//
-//			exit(1);//todo:исключение добавить
-//		}
-//
-//		//¬ернуть указатель на выделенную системой пам€ть
-//
-//		return p;
-//	}
+
 
 
 //поиск элемента данных в дереве, если найден вернуть адрес
@@ -239,3 +211,13 @@ TreeNode<T>* BinSTree<T>::FindNode(const T& item, TreeNode<T>*& parent) const
 	return t;
 }
 
+//ѕреобразование бинарного поиска дерева в вектор
+template< typename T >
+void BinSTree<T>::tree3vactor(std::vector<T>& vec) {
+	
+	if (root != nullptr) {
+		tree2vactor(root->left, vec);
+		vec.push_back(root->data);
+		tree2vactor(root->right, vec);
+	}
+}

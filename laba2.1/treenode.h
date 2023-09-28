@@ -180,3 +180,14 @@ TreeNode<T>* AddNode(TreeNode<T>* node, const T& item)
     
     return node;
 }
+
+
+//Преобразование дерева в вектор
+template< typename T >
+void tree2vactor(TreeNode<T>* root, std::vector<T>& vec) {
+    if (root != nullptr) {
+        tree2vactor(root->left, vec);
+        vec.push_back(root->data);
+        tree2vactor(root->right, vec);
+    }
+}

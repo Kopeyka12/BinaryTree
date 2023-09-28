@@ -142,3 +142,41 @@ TreeNode<T>* CopyTree(TreeNode<T>* t) {
     //вернуть указатель на новое созданное дерево
     return newnode;
 }
+
+
+template<class T>
+void LevelScan(TreeNode<T>* t, void visit (T& item))
+{
+    std::queue<TreeNode<T> *> Q;
+    Q.push(t);
+    while (!Q.empty())
+    {
+        TreeNode<T>* p;
+        p = Q.front();
+        Q.pop();
+        visit(p->data);
+        
+        if (p->Left() != nullptr)
+            Q.push(p->Left());
+        else if (p->Right() != nullptr)
+            Q.push(p->Right());
+    }
+}
+
+//добавление узла в дерево
+template<class T>
+TreeNode<T>* AddNode(TreeNode<T>* node, const T& item)
+{
+    if (node == nullptr) {
+        return new TreeNode<int>(item, nullptr, nullptr);
+    }
+    //while (node!=nullptr)
+   // {
+        if (item < node->data)
+            node->left = AddNode(node->left, item);
+        else
+            node->right = AddNode(node->right, item);
+   // }
+    
+    return node;
+}

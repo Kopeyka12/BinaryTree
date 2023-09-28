@@ -4,8 +4,8 @@
 #include <iostream>
 #include "treelib.h"
 #include "treenode.h"
-//#include "binstree.h"
-
+#include "binstree.h"
+#include <queue>
 using namespace std;
 
 
@@ -51,13 +51,23 @@ int main()
     cout << "Глубина дерева равна = " << Depth(root) << endl;
     cout <<"Вывод дерева: " << endl;
     PrintTree(root, 0);
+    //AddNode(root, 20);
     
+    cout << "Обход дерева в ширине: " << endl;
+    LevelScan(root, visit_print);
+
     cout << endl << "Копия:" << endl;
     root1 = CopyTree(root);
     Postorder(root1);
     cout << endl;
     PrintTree(root1, 0);
     
+    BinSTree<int> T;
+    T.Insert(40);
+    T.Insert(70);
+    T.Insert(45);
+    T.Insert(35);
+    //cout << endl << "Дерево BST:" << endl;
     
 
 

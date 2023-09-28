@@ -9,9 +9,6 @@ template <class T>
 class TreeNode
 
 {
-private:
-    
-
 public:
 //Указатели на левый и правый порожденные узлы
 
@@ -99,6 +96,7 @@ void FreeTreeNode(TreeNode<T>* p)
 {
     delete p;
 }
+
 //используем обратный аллгоритм прохождения 
 //удаляем каждый узел при его посещении
 template <class T>

@@ -1,4 +1,6 @@
 #pragma once
+#include <cassert>
+//#include <TestTreeNode.cpp>
 //Предварительное описание класса «бинарное дерево поиска»
 
 template <class T>
@@ -117,3 +119,5 @@ void ClearTree(TreeNode<T>& t)
     DeleteTree(t);
     t = nullptr;
 }
+
+

@@ -36,9 +36,9 @@ public:
 	
 	void Update(const T& item);
 
-	BinSTree<T>* BSTInorder(BinSTree<T>* parent);
+	//BinSTree<T>* BSTInorder(BinSTree<T>* parent);
 	
-	void tree3vactor(std::vector<T>& vec);
+	void treevactor(std::vector<T>& vec);
 };
 
 template<class T>
@@ -72,25 +72,31 @@ int BinSTree<T>::Find(T& item)
 template<class T>
 void BinSTree<T>::Insert(const T& item)
 {
+	//t-текущий узел, parent-предыдущий узел
 	TreeNode<T>* t = root, * parent = nullptr, * newNode;
-
+	//закончить на пустом дереве
 	while (t !=nullptr)
 	{
+		//обновить указатель parent и идти направа или влево
 		parent = t;
 		if (item < t->data)
 			t = t->left;
 		else
 			t = t->right;
 	}
-
+	//если родителя нет, вставить в качестве корневого узла
 	newNode = GetTreeNode<T>(item, nullptr, nullptr);
 	if (parent == nullptr)
 		root = newNode;
+	//если item меньше родительского узла, вставить в качестве левого сына
 	else if (item < parent->data)
 		parent->left = newNode;
 	else
+		//если item больше или равен родительскому узлу
+		//вставить  в качесте правого сына
 		parent->right = newNode;
-		current = newNode;
+	//присвоить указателю current адрес нового узла и увеличить size на 1
+	current = newNode;
 	size++;
 }
 
@@ -164,16 +170,16 @@ void BinSTree<T>::Delete(const T& item)
 	size--;
 }
 
-//если текущий узел определен и элемент данных (item) совпал
-//с данными в жтом узле, переписать жэлемент данных в узел
-//иначе включить item в дерево
+
 template<class T>
 void BinSTree<T>::Update(const T& item)
 {
+	//если текущий узел определен и элемент данных (item) совпал
 	if (current != nullptr && current->data ==item)
+//с данными в том узле, переписать жэлемент данных в узел
 		current->data = item;
 	else
-		Insert(item);
+		Insert(item);//иначе включить item в дерево
 }
 
 
@@ -213,11 +219,11 @@ TreeNode<T>* BinSTree<T>::FindNode(const T& item, TreeNode<T>*& parent) const
 
 //Преобразование бинарного поиска дерева в вектор
 template< typename T >
-void BinSTree<T>::tree3vactor(std::vector<T>& vec) {
+void BinSTree<T>::treevactor(std::vector<T>& vec) {
 	
 	if (root != nullptr) {
-		tree2vactor(root->left, vec);
+		vactornode(root->left, vec);
 		vec.push_back(root->data);
-		tree2vactor(root->right, vec);
+		vactornode(root->right, vec);
 	}
 }

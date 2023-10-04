@@ -35,7 +35,9 @@ int main()
     //      /
     //     12
 
-
+    cout <<"Вывод дерева: " << endl;
+    PrintTree(root, 0);
+    
     cout << "Обход дерева по принципу LNR: " << endl;
     //Inorder(root, visit_inc);  //обход дерева с увеличнием значений узла
     Inorder(root,visit_print);  //обход дерева и вывод узлов
@@ -48,8 +50,7 @@ int main()
     cout << "Обход дерева в ширине: " << endl;
     LevelScan(root, visit_print);
 
-    cout <<"Вывод дерева: " << endl;
-    PrintTree(root, 0);
+    
     
     int leafCount = 0;
     CountLeaf(root, leafCount);
@@ -60,13 +61,12 @@ int main()
 
     cout << endl << "Копия:" << endl;
     root1 = CopyTree(root);
-    Postorder(root1);
-    cout << endl;
+    AddNode(root, 20);
     PrintTree(root1, 0);
     
     cout << endl << "Преобразование Дерева в vector:" << endl;
     std::vector<int> vec, v;
-    tree2vactor(root1, vec);
+    vactornode(root, vec);
     
     for (int i = 0; i < vec.size(); i++) {
        std::cout << vec.at(i) << ' ';
@@ -77,7 +77,7 @@ int main()
     T.Insert(70);
     T.Insert(45);
     T.Insert(35);
-    T.tree3vactor(v);
+    T.treevactor(v);
     
     cout << endl << "Бинарное дерево:" << endl;
     for (int i = 0; i < v.size(); i++) {

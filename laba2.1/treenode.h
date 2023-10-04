@@ -2,6 +2,7 @@
 #include <iostream>
 #include <queue>
 //симетричное рекурсивное прохождение узлов дерева  LNR
+//visit параметр-функция которая выводит данные из узла дерева
 template <class T>
 void Inorder(TreeNode<T>* t, void visit(T& item)) {
 
@@ -143,7 +144,8 @@ TreeNode<T>* CopyTree(TreeNode<T>* t) {
     return newnode;
 }
 
-
+//обход дерева по широте
+//visit параметр-функция которая выводит данные из узла дерева
 template<class T>
 void LevelScan(TreeNode<T>* t, void visit (T& item))
 {
@@ -167,16 +169,18 @@ void LevelScan(TreeNode<T>* t, void visit (T& item))
 template<class T>
 TreeNode<T>* AddNode(TreeNode<T>* node, const T& item)
 {
+    //если узел имеет nullptr то выделяемя память и вносим значение item
     if (node == nullptr) {
         return new TreeNode<int>(item, nullptr, nullptr);
     }
-    //while (node!=nullptr)
-   // {
+
+    if (node!=nullptr)
+    {
         if (item < node->data)
             node->left = AddNode(node->left, item);
         else
             node->right = AddNode(node->right, item);
-   // }
+    }
     
     return node;
 }
@@ -184,10 +188,10 @@ TreeNode<T>* AddNode(TreeNode<T>* node, const T& item)
 
 //Преобразование дерева в вектор
 template< typename T >
-void tree2vactor(TreeNode<T>* root, std::vector<T>& vec) {
+void vactornode(TreeNode<T>* root, std::vector<T>& vec) {
     if (root != nullptr) {
-        tree2vactor(root->left, vec);
+        vactornode(root->left, vec);
         vec.push_back(root->data);
-        tree2vactor(root->right, vec);
+        vactornode(root->right, vec);
     }
 }

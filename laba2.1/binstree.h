@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
 #include <stdlib.h>
-
+#include "iterstor.h"
 #include "treenode.h"
 #include "treelib.h"
+#include <stack>
 #include <vector>
 
 template <class T>
@@ -12,20 +13,13 @@ class BinSTree
 protected:
 	//указатели на корень и на текущий узел
 	TreeNode<T>* root;
-	
 	TreeNode<T>* current;
 	
 	//число элементов дерева
 	int size;
-	
-	//void tree2vactor(BinSTree<T>* root, std::vector<T>& vec);
 
 	//используется деструктором, копирования и оператором присваивания
 	TreeNode<T>* FindNode(const T& item, TreeNode<T>*& parent) const;
-
-	
-
-
 public:
 	BinSTree();
 	
@@ -33,12 +27,25 @@ public:
 	int Find(T& item);
 	void Insert(const T& item);
 	void Delete(const T& item);
-	
 	void Update(const T& item);
-
-	//BinSTree<T>* BSTInorder(BinSTree<T>* parent);
-	
 	void treevactor(std::vector<T>& vec);
+
+	class BSTIterator: public Iterator<T>
+	{
+	private:
+		BinSTree<T>* poo;
+		TreeNode<T>* root2;
+	
+	public:
+		BSTIterator();
+
+		virtual void Next();
+		virtual void Reset();
+
+		virtual T& Data();
+
+		BinSTree<T>* node;
+	};
 };
 
 template<class T>

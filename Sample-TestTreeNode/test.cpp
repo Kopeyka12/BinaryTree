@@ -2,6 +2,7 @@
 #include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treelib.h"
 #include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treenode.h"
 #include <cassert>
+#include <sstream>
 TreeNode<int>* createTree1() {
 
     //        8
@@ -102,34 +103,31 @@ TEST(TestTreeNode, TestVector) {
     
     TreeNode<int>* root3 = createTree3();
     const std::vector <int> V3{6,9,38,4,50};
-
+    //LNR
     std::vector <int> v3;
     vactornode(root3, v3);
     assert(V3 == v3);
 }
 
+//ф-ия обхода LRN
+TEST(TestTreeNode, TestPostorder) {
+    TreeNode <int>* root4 = createTree1();
 
-TEST(TestTreeNode, TestVector) {
-    TreeNode<int>* root1 = createTree1();
-    const std::vector <int> V1{ 1,3,4,6,7,8,10,13,14 };
+    //Класс stringstream позволяет рассматривать строковый объект как поток. Он используется для работы со строками.
+    //Рассматривая строки как потоки, мы можем выполнять операции извлечения и вставки из/в строку так же, как потоки cin и cout.
+    std::ostringstream oss;
+    //Класс streambuf обеспечивает буферизацию данных во всех производных классах,
+    //которыми явно или неявно пользуется программист.
+    //rdbuf() позволяет нескольким объектам потоков данных читать из одного входного канала или записывать в один выходной канал без нарушения порядка ввода - вывода
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf(); //p_cout_streambuf имеет значение откуда считывать строку 
+    std::cout.rdbuf(oss.rdbuf());//рассматриваем строку как поток для дальнейшего извлечения.
+    
+    Postorder(root4);//вызываем метод в котором значение сразу выводиться в консоль
 
-    std::vector <int> v1;
-    vactornode(root1, v1);
-    assert(V1 == v1);
+    std::cout.rdbuf(p_cout_streambuf); 
 
-    TreeNode<int>* root2 = createTree2();
-    const std::vector <int> V2{ 3,8,50,38 };
-
-    std::vector <int> v2;
-    vactornode(root2, v2);
-    assert(V2 == v2);
-
-    TreeNode<int>* root3 = createTree3();
-    const std::vector <int> V3{ 6,9,38,4,50 };
-
-    std::vector <int> v3;
-    vactornode(root3, v3);
-    assert(V3 == v3);
+    // тестируем наш метод
+    assert(oss.str() == "1 4 7 6 3 13 14 10 8 ");
 }
 /*TEST(TestCaseName, TestName) {
   EXPECT_EQ(1, 1);

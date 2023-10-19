@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="binstree.h" />
+    <ClInclude Include="iterstor.h" />
     <ClInclude Include="treelib.h" />
     <ClInclude Include="treenode.h" />
   </ItemGroup>

@@ -63,8 +63,6 @@ int CountLeaf(TreeNode<T>* t, int& count) {
     return count;
 }
 
-
-
 //фу-ия LRN
 //вычисляет глубину дерева через формулу
 // 1+ max(depthLeft, depthRight)
@@ -89,7 +87,6 @@ int Depth(TreeNode<T>* t) {
     return depthval;
 }
 
-
 //промежудки м/у уровнями
 const int indentBlock = 4;
 //встваить num пробелов на текущей строке
@@ -98,6 +95,7 @@ void IndentBlocks(int num)
     for (int i = 0; i < num; i++)
         std::cout << " ";
 }
+
 //распечатать дерево боком, используя RNL-прохождение
 template <class T>
 void PrintTree(TreeNode<T>* t, int level)
@@ -184,7 +182,6 @@ TreeNode<T>* AddNode(TreeNode<T>* node, const T& item)
     
     return node;
 }
-
 
 //Преобразование дерева в вектор
 template< typename T >

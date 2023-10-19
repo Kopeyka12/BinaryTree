@@ -39,25 +39,20 @@ int main()
     PrintTree(root, 0);
     
     cout << "Обход дерева по принципу LNR: " << endl;
-    //Inorder(root, visit_inc);  //обход дерева с увеличнием значений узла
     Inorder(root,visit_print);  //обход дерева и вывод узлов
     std::cout << std::endl;
-    
+
     std::cout <<"Обход дерева по принципу LRN: " << std::endl;
     Postorder(root);
     std::cout << std::endl;
 
     cout << "Обход дерева в ширине: " << endl;
     LevelScan(root, visit_print);
-
-    
     
     int leafCount = 0;
     CountLeaf(root, leafCount);
     cout << endl<<"Число листьев = " << leafCount << endl;
-    
     cout << "Глубина дерева равна = " << Depth(root) << endl;
-    
 
     cout << endl << "Копия:" << endl;
     root1 = CopyTree(root);
@@ -85,9 +80,6 @@ int main()
     }
    
 }
-
-//todo: посчет узлов(3), вставка(2), удаление дерева, поиск(1)
-
 
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"

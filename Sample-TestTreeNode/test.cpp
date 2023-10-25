@@ -33,7 +33,7 @@ TreeNode<int>* createTree1() {
 
 TreeNode<int>* createTree2() {
 
-    // ñîçäà¸òñÿ óêàçàòåëè íà óçëû äåðåâà 
+    //создаётся указатели на узлы дерева 
     TreeNode<int>* rightleaf, * root;
 
 
@@ -55,7 +55,7 @@ TreeNode<int>* createTree2() {
 
 TreeNode<int>* createTree3() {
 
-    // ñîçäà¸òñÿ óêàçàòåëè íà óçëû äåðåâà 
+    //создаётся указатели на узлы дерева 
     TreeNode<int>* rightleaf, * root;
 
 
@@ -76,15 +76,6 @@ TreeNode<int>* createTree3() {
     root->right->right->left->right = new TreeNode<int>(4);
     return root;
 }
-    // V = 1 3 4 6 7 8 10 13 14 
-    //       3
-    //        \
-    //         8
-    //          \
-    //           50
-    //            \
-    //             38
-
 
 TEST(TestTreeNode, TestVector) {
     TreeNode<int>* root1 = createTree1();
@@ -129,7 +120,80 @@ TEST(TestTreeNode, TestPostorder) {
     // тестируем наш метод
     assert(oss.str() == "1 4 7 6 3 13 14 10 8 ");
 }
-/*TEST(TestCaseName, TestName) {
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
-}*/
+
+TEST(TestTreeNode, TestDepth) {
+    TreeNode <int>* root1 = createTree1();
+    assert(Depth(root1)==3);
+
+    TreeNode <int>* root2 = createTree2();
+    assert(Depth(root2) == 3);
+
+    TreeNode <int>* root3 = createTree3();
+    assert(Depth(root3) == 4);
+}
+
+TEST(TestTreeNode, TestCountLeaf) {
+    int leafCount = 0;
+    TreeNode <int>* root1 = createTree1();
+    assert(CountLeaf(root1, leafCount) == 4);
+    leafCount = 0;
+    TreeNode <int>* root2 = createTree2();
+    assert(CountLeaf(root2, leafCount) == 1);
+    leafCount = 0;
+    TreeNode <int>* root3 = createTree3();
+    assert(CountLeaf(root3, leafCount) == 1);
+}
+
+TEST(TestTreeNode, TestLevelScan) {
+    TreeNode <int>* root6 = createTree1();
+
+    std::ostringstream oss;
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf(); 
+    std::cout.rdbuf(oss.rdbuf());
+
+    LevelScan(root6,visit_print);
+
+    std::cout.rdbuf(p_cout_streambuf);
+
+    // тестируем наш метод
+    assert(oss.str() == "8 3 10 1 6 14 4 7 13 ");
+
+
+    TreeNode <int>* root7 = createTree2();
+
+    std::ostringstream oss2;
+    std::streambuf* p_cout_streambuf2 = std::cout.rdbuf();
+    std::cout.rdbuf(oss2.rdbuf());
+
+    LevelScan(root7, visit_print);
+
+    std::cout.rdbuf(p_cout_streambuf2);
+
+    // тестируем наш метод
+    assert(oss2.str() == "3 8 50 38 ");
+
+
+    TreeNode <int>* root8 = createTree3();
+
+    std::ostringstream oss3;
+    std::streambuf* p_cout_streambuf3 = std::cout.rdbuf();
+    std::cout.rdbuf(oss3.rdbuf());
+
+    LevelScan(root8, visit_print);
+
+    std::cout.rdbuf(p_cout_streambuf3);
+
+    // тестируем наш метод
+    assert(oss3.str() == "6 9 50 38 4 ");
+}
+
+TEST(TestTreeNode, TestDepth) {
+    TreeNode <int>* root1 = createTree1();
+    assert(Depth(root1) == 3);
+
+    TreeNode <int>* root2 = createTree2();
+    assert(Depth(root2) == 3);
+
+    TreeNode <int>* root3 = createTree3();
+    assert(Depth(root3) == 4);
+}

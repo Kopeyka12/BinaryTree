@@ -18,13 +18,9 @@ int main()
     TreeNode<int>* leftleaf, * rightleaf, * root, *root1;
     //создание дерева 
     root = new TreeNode<int>(10);
-
     root->right = new TreeNode<int>(5);
-
     root->right->right = new TreeNode<int>(4);
-
     root->right->left= new TreeNode<int>(2);
-
     root->right->left->left = new TreeNode<int>(12);
 
     //      10
@@ -74,11 +70,34 @@ int main()
     T.Insert(35);
     T.treevactor(v);
     
-    cout << endl << "Бинарное дерево:" << endl;
+    /*cout << endl << "Бинарное дерево:" << endl;
     for (int i = 0; i < v.size(); i++) {
         std::cout << v.at(i) << ' ';
     }
-   
+    */
+    std::cout << std::endl;
+    BinSTree<int>::iterator iter = T.begin();
+    while (iter != T.end()) {
+        std::cout << *iter << " ";
+        ++iter;
+    }
+    
+
+    // //создаётся указатели на узлы дерева 
+    //TreeNode<int>* leftleaf, * rightleaf, * root;
+    ////создание дерева 
+    //root = new TreeNode<int>(8);
+    //root->right = new TreeNode<int>(10);
+    //root->right->right = new TreeNode<int>(14);
+    //root->right->right->left = new TreeNode<int>(13);
+    //root->left = new TreeNode<int>(3);
+    //root->left->left = new TreeNode<int>(1);
+    //root->left->right = new TreeNode<int>(6);
+    //root->left->right->right = new TreeNode<int>(7);
+    //root->left->right->left = new TreeNode<int>(4);
+
+    //cout << "Обход дерева в ширине: " << endl;
+    //LevelScan(root, visit_print);
 }
 
 

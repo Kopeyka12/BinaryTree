@@ -19,33 +19,76 @@ protected:
 	int size;
 
 	//используется деструктором, копирования и оператором присваивания
-	TreeNode<T>* FindNode(const T& item, TreeNode<T>*& parent) const;
+	TreeNode<T>* FindNode(const T& item) const;
 public:
 	BinSTree();
 	
-	//стандартные методы обработки списков
-	int Find(T& item);
-	void Insert(const T& item);
-	void Delete(const T& item);
-	void Update(const T& item);
-	void treevactor(std::vector<T>& vec);
-
-	class BSTIterator: public Iterator<T>
-	{
+	//Класс итератора
+	class iterator {
 	private:
-		BinSTree<T>* poo;
-		TreeNode<T>* root2;
-	
+		TreeNode<T>* current;				//указатель на узел
+		std::stack<TreeNode<T>*> stack;		//использеум стек для хранения данных
+
+		//Добавить узел в стек 
+		void pushNodes(TreeNode<T>* node) {	
+			while (node != nullptr) {
+				stack.push(node);
+				node = node->left;
+			}
+		}
 	public:
-		BSTIterator();
-
-		virtual void Next();
-		virtual void Reset();
-
-		virtual T& Data();
-
-		BinSTree<T>* node;
+		//итератор
+		iterator(TreeNode<T>* root) {
+			pushNodes(root);
+			if (!stack.empty()) {
+				current = stack.top();
+				stack.pop();
+			}
+			else {
+				current = nullptr;
+			}
+		}
+		//оператор сравнения 
+		bool operator!=(const iterator& other) const {
+			return current != other.current;
+		}
+		//оператор вывода узла
+		T operator*() const {
+			return current->data;
+		}
+		//оператор добавления узла
+		iterator& operator++() {
+			//если правого потомока нет 
+			if (current->right != nullptr) {
+				pushNodes(current->right);
+			}
+			//если стек не пустой  
+			if (!stack.empty()) {
+				current = stack.top();	//вернуть указательн на вершину
+				stack.pop();			//поместить значение в стек
+			}
+			else {		//иначе возвращаем, что стек пуст
+				current = nullptr;
+			}
+			return *this;
+		}
 	};
+	//итераторы, указывающие на начало и конец дерева соответственно
+	iterator begin() {
+		return iterator(root);
+	}
+	iterator end() {
+		return iterator(nullptr);
+	}
+
+
+		//стандартные методы обработки списков
+		int Find(T& item);
+		void Insert(const T& item);
+		void Delete(const T& item);
+		void Update(const T& item);
+		void treevactor(std::vector<T>& vec);
+	
 };
 
 template<class T>
@@ -62,7 +105,7 @@ int BinSTree<T>::Find(T& item)
 	TreeNode<T>* parent;
 	
 	//искать item назначить совпавший узел текущим
-	current = FindNode(item, parent);
+	current = FindNode(item);
 
 	//если найден, присвоить данные узла и возвратить True
 	if (current!= nullptr)
@@ -118,7 +161,7 @@ void BinSTree<T>::Delete(const T& item)
 
 	//найти узел, данные в котором совпадают с item
 	//получить его адрес и адрес его родителя
-	if ((DNodePtr = FindNode(item, PNodePtr)) == nullptr)
+	if ((DNodePtr = FindNode(item)) == nullptr)
 		return;
 	//если узел D имеет nullptr-указатель, то заменяющим
 	//узлом является тот, чо находится на другой ветви
@@ -177,7 +220,6 @@ void BinSTree<T>::Delete(const T& item)
 	size--;
 }
 
-
 template<class T>
 void BinSTree<T>::Update(const T& item)
 {
@@ -189,20 +231,16 @@ void BinSTree<T>::Update(const T& item)
 		Insert(item);//иначе включить item в дерево
 }
 
-
-
-
-
 //поиск элемента данных в дереве, если найден вернуть адрес
 //совпавшего узела или указатель на его родителя иначе NULL
 template<class T>
-TreeNode<T>* BinSTree<T>::FindNode(const T& item, TreeNode<T>*& parent) const
+TreeNode<T>* BinSTree<T>::FindNode(const T& item) const
 {
 	//пробежать по узлам дерева, начиная с корня
 	TreeNode<T>* t = root;
 
 	//у корня нет родителя
-	parent = nullptr;
+	TreeNode<T>* parent = nullptr;
 
 	//прерываться на пустом дереве
 	while (t != nullptr)

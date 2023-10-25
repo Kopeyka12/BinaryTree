@@ -13,35 +13,25 @@ class TreeNode
 {
 public:
 //Указатели на левый и правый порожденные узлы
-
     TreeNode<T> *left;
-
     TreeNode<T> *right;
 
-
     //Открытый элемент данных класса, допускающий обновление
-
     T data;
 
     //Конструктор: инициализирует поле данных и указатели
-
     //на порожденные узлы
-
     TreeNode(const T& item, TreeNode<T>* lptr = nullptr, TreeNode<T>* rptr = nullptr);    
 
     // Методы доступа к указателям на порожденные узлы
-
     TreeNode<T>* Left() const;
-
     TreeNode<T>* Right() const;
 
     // Описание класса BinSTree как дружественного
-
     friend class BinSTree<T>;
 };
 
 //Создать объект TreeNode с указательными полями lptr и rptr.
-
 //По умолчанию указатели содержат NULL.
 
 template <class T>
@@ -61,7 +51,6 @@ inline TreeNode<T>* TreeNode<T>::Right() const
     return right;
 }
 
-
 //создает объект TreeNode с указательными полями lptr и rptr
 //по умолчанию указатели nullptr
 template <class T>
@@ -71,24 +60,18 @@ TreeNode<T>* GetTreeNode(T item, TreeNode<T>* lptr = nullptr,
 {
     TreeNode<T>* p;
     //Вызвать new для создания нового узла
-    
     //Передать туда параметры lptr и rptr
-
     p = new TreeNode<T>(item, lptr, rptr);
 
     //Если памяти недостаточно, завершить
-    
     //программу сообщением об ошибке
-
     if (p == nullptr)
     {
         std::cerr << "Ошибка при выделении памяти!\n";
         
         exit(1);
     }
-    
     //Вернуть указатель на выделенную системой память
-    
     return p;
 }
 

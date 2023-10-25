@@ -5,15 +5,10 @@
 //visit параметр-функция которая выводит данные из узла дерева
 template <class T>
 void Inorder(TreeNode<T>* t, void visit(T& item)) {
-
     //рекурсивное прохождение завершается на пустом поддереве
-
     if (t != nullptr) {
-
         Inorder(t->Left(), visit);      //спускаемся по левому поддерову
-
         visit(t->data);                 //посетить узел
-
         Inorder(t->Right(), visit);     //спуститься по правому поддереву
     }
 }
@@ -21,15 +16,11 @@ void Inorder(TreeNode<T>* t, void visit(T& item)) {
 //ф-ия обхода LRN
 template <class T>
 void Postorder(TreeNode<T>* t) {
-
     //рекурсивное прохождение завершается на пустом поддереве
-
     if (t != nullptr) {
 
         Postorder(t->Left());      //спускаемся по левому поддерову
-
         Postorder(t->Right());     //спуститься по правому поддереву
-
         std::cout << t->data << " ";                 //посетить узел
     }
 }
@@ -73,14 +64,11 @@ int Depth(TreeNode<T>* t) {
     int depthLeft, depthRight, depthval;
 
     if (t == nullptr)
-
         depthval = -1;
     else
     {
         depthRight = Depth(t->Right());
-        
         depthLeft = Depth(t->Left());
-
         depthval = 1 + (depthLeft > depthRight ? depthLeft : depthRight);
         
     }
@@ -147,6 +135,22 @@ TreeNode<T>* CopyTree(TreeNode<T>* t) {
 template<class T>
 void LevelScan(TreeNode<T>* t, void visit (T& item))
 {
+    /*std::queue<TreeNode<T> *> queue;
+    queue.push(t);
+
+    while (!queue.empty()) {
+        TreeNode<T>* current = queue.front();
+        queue.pop();
+        visit(current->data);
+
+        if (current->left != nullptr) {
+            queue.push(current->left);
+        }
+
+        if (current->right != nullptr) {
+            queue.push(current->right);
+        }
+    }*/
     std::queue<TreeNode<T> *> Q;
     Q.push(t);
     while (!Q.empty())
@@ -158,7 +162,7 @@ void LevelScan(TreeNode<T>* t, void visit (T& item))
         
         if (p->Left() != nullptr)
             Q.push(p->Left());
-        else if (p->Right() != nullptr)
+        if (p->Right() != nullptr)
             Q.push(p->Right());
     }
 }

@@ -175,13 +175,14 @@ TreeNode<T>* AddNode(TreeNode<T>* node, const T& item)
     if (node == nullptr) {
         return new TreeNode<int>(item, nullptr, nullptr);
     }
-
+    //если узел пустой
     if (node!=nullptr)
     {
+        //если узел который желаем вставить меньше данного узла
         if (item < node->data)
-            node->left = AddNode(node->left, item);
+            node->left = AddNode(node->left, item); //идем влево и там проверяем условие 
         else
-            node->right = AddNode(node->right, item);
+            node->right = AddNode(node->right, item);//иначе идем вправо и там проверяем условие
     }
     
     return node;

@@ -24,7 +24,7 @@ public:
 	BinSTree();
 	
 	//Класс итератора
-	class iterator {
+	class iteratorBST {
 	private:
 		TreeNode<T>* current;				//указатель на узел
 		std::stack<TreeNode<T>*> stack;		//использеум стек для хранения данных
@@ -38,7 +38,7 @@ public:
 		}
 	public:
 		//итератор
-		iterator(TreeNode<T>* root) {
+		iteratorBST(TreeNode<T>* root) {
 			pushNodes(root);
 			if (!stack.empty()) {
 				current = stack.top();
@@ -49,15 +49,15 @@ public:
 			}
 		}
 		//оператор сравнения 
-		bool operator!=(const iterator& other) const {
+		bool operator!=(const iteratorBST& other) const {
 			return current != other.current;
 		}
 		//оператор вывода узла
 		T operator*() const {
 			return current->data;
 		}
-		//оператор добавления узла
-		iterator& operator++() {
+		//оператор добавления узла 
+		iteratorBST& operator++() {
 			//если правого потомока нет 
 			if (current->right != nullptr) {
 				pushNodes(current->right);
@@ -74,13 +74,12 @@ public:
 		}
 	};
 	//итераторы, указывающие на начало и конец дерева соответственно
-	iterator begin() {
-		return iterator(root);
+	iteratorBST begin() {
+		return iteratorBST(root);
 	}
-	iterator end() {
-		return iterator(nullptr);
+	iteratorBST end() {
+		return iteratorBST(nullptr);
 	}
-
 
 		//стандартные методы обработки списков
 		int Find(T& item);
@@ -88,9 +87,8 @@ public:
 		void Delete(const T& item);
 		void Update(const T& item);
 		void treevactor(std::vector<T>& vec);
-	
 };
-
+//todo диструктор, оператор присваивания конструктор копировани, констр перемещения, оператор = присваивания перемещения 
 template<class T>
 BinSTree<T>::BinSTree()
 {
@@ -124,29 +122,30 @@ void BinSTree<T>::Insert(const T& item)
 {
 	//t-текущий узел, parent-предыдущий узел
 	TreeNode<T>* t = root, * parent = nullptr, * newNode;
-	//закончить на пустом дереве
-	while (t !=nullptr)
-	{
-		//обновить указатель parent и идти направа или влево
-		parent = t;
-		if (item < t->data)
-			t = t->left;
-		else
-			t = t->right;
-	}
-	//если родителя нет, вставить в качестве корневого узла
-	newNode = GetTreeNode<T>(item, nullptr, nullptr);
-	if (parent == nullptr)
-		root = newNode;
-	//если item меньше родительского узла, вставить в качестве левого сына
-	else if (item < parent->data)
-		parent->left = newNode;
-	else
-		//если item больше или равен родительскому узлу
-		//вставить  в качесте правого сына
-		parent->right = newNode;
+	AddNode(t, item);
+	////закончить на пустом дереве
+	//while (t !=nullptr)
+	//{
+	//	//обновить указатель parent и идти направа или влево
+	//	parent = t;
+	//	if (item < t->data)
+	//		t = t->left;
+	//	else
+	//		t = t->right;
+	//}
+	////если родителя нет, вставить в качестве корневого узла
+	//newNode = GetTreeNode<T>(item, nullptr, nullptr);
+	//if (parent == nullptr)
+	//	root = newNode;
+	////если item меньше родительского узла, вставить в качестве левого сына
+	//else if (item < parent->data)
+	//	parent->left = newNode;
+	//else
+	//	//если item больше или равен родительскому узлу
+	//	//вставить  в качесте правого сына
+	//	parent->right = newNode;
 	//присвоить указателю current адрес нового узла и увеличить size на 1
-	current = newNode;
+	//current = newNode;
 	size++;
 }
 

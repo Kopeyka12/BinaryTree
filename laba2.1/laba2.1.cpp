@@ -70,13 +70,12 @@ int main()
     T.Insert(35);
     T.treevactor(v);
     
-    /*cout << endl << "Бинарное дерево:" << endl;
-    for (int i = 0; i < v.size(); i++) {
+    cout << endl << "Бинарное дерево:" << endl;
+    /*for (int i = 0; i < v.size(); i++) {
         std::cout << v.at(i) << ' ';
     }
     */
-    std::cout << std::endl;
-    BinSTree<int>::iterator iter = T.begin();
+    BinSTree<int>::iteratorBST iter = T.begin();
     while (iter != T.end()) {
         std::cout << *iter << " ";
         ++iter;

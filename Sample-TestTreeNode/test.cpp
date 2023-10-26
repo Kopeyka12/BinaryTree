@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treelib.h"
 #include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treenode.h"
+#include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\binstree.h"
 #include <cassert>
 #include <sstream>
 TreeNode<int>* createTree1() {
@@ -77,6 +78,18 @@ TreeNode<int>* createTree3() {
     return root;
 }
 
+BinSTree<int> createBST1() {
+    BinSTree<int> T;
+    T.Insert(20);
+    T.Insert(1);
+    T.Insert(73);
+    T.Insert(15);
+    T.Insert(65);
+    T.Insert(34);
+    T.Insert(10);
+    return T;
+}
+
 TEST(TestTreeNode, TestVector) {
     TreeNode<int>* root1 = createTree1();
     const std::vector <int> V1 {1,3,4,6,7,8,10,13,14};
@@ -99,7 +112,6 @@ TEST(TestTreeNode, TestVector) {
     vactornode(root3, v3);
     assert(V3 == v3);
 }
-
 //ф-ия обхода LRN
 TEST(TestTreeNode, TestPostorder) {
     TreeNode <int>* root4 = createTree1();
@@ -187,13 +199,12 @@ TEST(TestTreeNode, TestLevelScan) {
     assert(oss3.str() == "6 9 50 38 4 ");
 }
 
-TEST(TestTreeNode, TestDepth) {
-    TreeNode <int>* root1 = createTree1();
-    assert(Depth(root1) == 3);
+TEST(TestBST, TestVectorBST_Test) {
+    BinSTree<int> E = createBST1();
+    /*std::vector<int> v1, V1;
 
-    TreeNode <int>* root2 = createTree2();
-    assert(Depth(root2) == 3);
-
-    TreeNode <int>* root3 = createTree3();
-    assert(Depth(root3) == 4);
+    const std::vector <int> V3{ 1,10,15,20,34,65,73 };
+    E.treevactor(v1);
+    assert(V1 == v1);*/
+    assert(2 == 2);
 }

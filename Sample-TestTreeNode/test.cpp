@@ -201,10 +201,10 @@ TEST(TestTreeNode, TestLevelScan) {
 
 TEST(TestBST, TestVectorBST_Test) {
     BinSTree<int> E = createBST1();
-    /*std::vector<int> v1, V1;
+    std::vector<int> v4;
 
-    const std::vector <int> V3{ 1,10,15,20,34,65,73 };
-    E.treevactor(v1);
-    assert(V1 == v1);*/
-    assert(2 == 2);
+    std::vector <int> V4{1,10,15,20,34,65,73};
+    E.treevactor(v4);
+    assert(V4 == v4);
+    
 }

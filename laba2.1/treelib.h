@@ -27,6 +27,12 @@ public:
     TreeNode<T>* Left() const;
     TreeNode<T>* Right() const;
 
+    void SetData(T data1);
+
+    void SetRight(TreeNode<T>* right1);
+
+    void SetLeft(TreeNode<T>* left1);
+
     // Описание класса BinSTree как дружественного
     friend class BinSTree<T>;
 };
@@ -49,6 +55,25 @@ template<class T>
 inline TreeNode<T>* TreeNode<T>::Right() const
 {
     return right;
+}
+
+// Метод задания значения поля данных
+template <typename T>
+void TreeNode<T>::SetData(T data1) {
+    this->data = data1;
+}
+
+
+// Метод задания значения правого потомка
+template <typename T>
+void TreeNode<T>::SetRight(TreeNode<T>* right1) {
+    this->right = right1;
+}
+
+// Метод задания значения левого потомка
+template <typename T>
+void TreeNode<T>::SetLeft(TreeNode<T>* left1) {
+    this->left = left1;
 }
 
 //создает объект TreeNode с указательными полями lptr и rptr
@@ -103,4 +128,87 @@ void ClearTree(TreeNode<T>& t)
     t = nullptr;
 }
 
+// Нахождение минимального узла в поддереве
+template <typename T>
+TreeNode<T>* getNextLeft(TreeNode<T>* root)
+{
+    while (root->Left() != nullptr) {
+        root = root->Left();
+    }
 
+    return root;
+}
+
+// нахождение ближайшего наибольшего
+template <typename T>
+void Successor(TreeNode<T>* root, TreeNode<T>*& succ, int key) {
+
+    // Базовый случай (пустое дерево)
+    if (root == nullptr) {
+        succ = nullptr;
+    }
+
+    // если найден узел, для которого нужно найти ближайшее наибольшее
+    else if (root->data == key)
+    {
+        // если есть правый потомок
+        if (root->Right() != nullptr) {
+            // находим самый левый узел от правого потомка
+            succ = getNextLeft(root->Right());
+        }
+    }
+
+    // поиск нужного узла в левом или правом поддереве
+    else if (key < root->data)
+    {
+        succ = root;
+        Successor(root->Left(), succ, key);
+    }
+    else {
+        Successor(root->Right(), succ, key);
+    }
+}
+
+
+// Рекурсивный метод для удаления узла из дерева
+template <typename T>
+TreeNode<T>* deleteNode(TreeNode<T>* root, int key) {
+    if (root == nullptr) {
+        return root;
+    }
+
+    // Если значение ключа меньше значения корневого узла, рекурсивно ищем узел в левом поддереве
+    if (key < root->data) {
+        root->left = deleteNode(root->left, key);
+    }
+    // Если значение ключа больше значения корневого узла, рекурсивно ищем узел в правом поддереве
+    else if (key > root->data) {
+        root->right = deleteNode(root->right, key);
+    }
+    // Если значение ключа равно значению корневого узла, то это узел, который нужно удалить
+    else {
+        // Если у узла нет потомков или только один потомок, то просто удаляем узел, заменяя его на соответствующего потомка
+        if (root->left == nullptr) {
+            TreeNode<T>* temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if (root->right == nullptr) {
+            TreeNode<T>* temp = root->left;
+            delete root;
+            return temp;
+        }
+
+        // Если у узла есть два потомка, то находим наименьший узел в правом поддереве (или наибольший в левом поддереве)
+        // и заменяем текущий узел на найденный узел, а затем удаляем найденный узел
+        TreeNode<T>* temp = root->right;
+        while (temp->left != nullptr) {
+            temp = temp->left;
+        }
+
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+
+    return root;
+}

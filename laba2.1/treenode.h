@@ -135,22 +135,6 @@ TreeNode<T>* CopyTree(TreeNode<T>* t) {
 template<class T>
 void LevelScan(TreeNode<T>* t, void visit (T& item))
 {
-    /*std::queue<TreeNode<T> *> queue;
-    queue.push(t);
-
-    while (!queue.empty()) {
-        TreeNode<T>* current = queue.front();
-        queue.pop();
-        visit(current->data);
-
-        if (current->left != nullptr) {
-            queue.push(current->left);
-        }
-
-        if (current->right != nullptr) {
-            queue.push(current->right);
-        }
-    }*/
     std::queue<TreeNode<T> *> Q;
     Q.push(t);
     while (!Q.empty())
@@ -175,7 +159,7 @@ TreeNode<T>* AddNode(TreeNode<T>* node, const T& item)
     if (node == nullptr) {
         return new TreeNode<int>(item, nullptr, nullptr);
     }
-    //если узел пустой
+    //если узел Ќ≈ пустой
     if (node!=nullptr)
     {
         //если узел который желаем вставить меньше данного узла

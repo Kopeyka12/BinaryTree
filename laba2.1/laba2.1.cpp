@@ -54,7 +54,16 @@ int main()
     root1 = CopyTree(root);
     AddNode(root, 20);
     PrintTree(root1, 0);
-    
+
+    cout << "\nНахождение следующего наибольшего для 10: ";
+    TreeNode<int>* s = nullptr;
+
+    Successor(root, s, 10);
+    if (s != nullptr) {
+        cout << s->data;
+    }
+    else cout << "Не существует\n";
+
     cout << endl << "Преобразование Дерева в vector:" << endl;
     std::vector<int> vec, v;
     vactornode(root, vec);
@@ -62,6 +71,11 @@ int main()
     for (int i = 0; i < vec.size(); i++) {
        std::cout << vec.at(i) << ' ';
     }
+    
+    //root = deleteNode(root, 5);
+    //cout << endl<<"Выводим дерево после удалении узла 5" << endl;
+    //Inorder(root, visit_print);  //обход дерева и вывод узлов
+    //PrintTree(root, 0);
 
     BinSTree<int> T;
     T.Insert(40);
@@ -71,32 +85,16 @@ int main()
     T.treevactor(v);
     
     cout << endl << "Бинарное дерево:" << endl;
-    /*for (int i = 0; i < v.size(); i++) {
+    for (int i = 0; i < v.size(); i++) {
         std::cout << v.at(i) << ' ';
     }
-    */
-    BinSTree<int>::iteratorBST iter = T.begin();
+    
+    /*BinSTree<int>::iteratorBST iter = T.begin();
     while (iter != T.end()) {
         std::cout << *iter << " ";
         ++iter;
-    }
+    }*/
     
-
-    // //создаётся указатели на узлы дерева 
-    //TreeNode<int>* leftleaf, * rightleaf, * root;
-    ////создание дерева 
-    //root = new TreeNode<int>(8);
-    //root->right = new TreeNode<int>(10);
-    //root->right->right = new TreeNode<int>(14);
-    //root->right->right->left = new TreeNode<int>(13);
-    //root->left = new TreeNode<int>(3);
-    //root->left->left = new TreeNode<int>(1);
-    //root->left->right = new TreeNode<int>(6);
-    //root->left->right->right = new TreeNode<int>(7);
-    //root->left->right->left = new TreeNode<int>(4);
-
-    //cout << "Обход дерева в ширине: " << endl;
-    //LevelScan(root, visit_print);
 }
 
 

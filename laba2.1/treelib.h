@@ -244,44 +244,4 @@ TreeNode<T>* DeleteNode(TreeNode<T>* root, const T value) {
         delete succ;
         return root;
     }
-    
-    
-    //if (root == nullptr) {
-    //    return root;
-    //}
-
-    //// ≈сли значение ключа меньше значени€ корневого узла, рекурсивно ищем узел в левом поддереве
-    //if (key < root->data) {
-    //    root->left = DeleteNode(root->left, key);
-    //}
-    //// ≈сли значение ключа больше значени€ корневого узла, рекурсивно ищем узел в правом поддереве
-    //else if (key > root->data) {
-    //    root->right = DeleteNode(root->right, key);
-    //}
-    //// ≈сли значение ключа равно значению корневого узла, то это узел, который нужно удалить
-    //else {
-    //    // ≈сли у узла нет потомков или только один потомок, то просто удал€ем узел, замен€€ его на соответствующего потомка
-    //    if (root->left == nullptr) {
-    //        TreeNode<T>* temp = root->right;
-    //        delete root;
-    //        return temp;
-    //    }
-    //    else if (root->right == nullptr) {
-    //        TreeNode<T>* temp = root->left;
-    //        delete root;
-    //        return temp;
-    //    }
-
-    //    // ≈сли у узла есть два потомка, то находим наименьший узел в правом поддереве (или наибольший в левом поддереве)
-    //    // и замен€ем текущий узел на найденный узел, а затем удал€ем найденный узел
-    //    TreeNode<T>* temp = root->right;
-    //    while (temp->left != nullptr) {
-    //        temp = temp->left;
-    //    }
-
-    //    root->data = temp->data;
-    //    root->right = DeleteNode(root->right, temp->data);
-    //}
-
-    //return root;
 }

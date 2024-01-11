@@ -18,10 +18,10 @@ int main()
     TreeNode<int>* leftleaf, * rightleaf, * root, *root1, *root2;
     //создание дерева 
     root = new TreeNode<int>(10);
-    root->right = new TreeNode<int>(5);
-    root->right->right = new TreeNode<int>(4);
-    root->right->left= new TreeNode<int>(2);
-    root->right->left->left = new TreeNode<int>(12);
+    root->right = new TreeNode<int>(12);
+    root->right->right = new TreeNode<int>(5);
+    root->right->left= new TreeNode<int>(4);
+    root->right->left->left = new TreeNode<int>(2);
 
     //      10
     //        \
@@ -72,9 +72,11 @@ int main()
        std::cout << vec.at(i) << ' ';
     }
     
-    root = DeleteNode(root, 2);
-    cout << endl<<"Выводим дерево после удалении узла 2" << endl;
+    root = DeleteNode(root, 12);
+    cout << endl<<"Выводим дерево после удалении узла 12" << endl;
     Inorder(root, visit_print);  //обход дерева и вывод узлов
+    cout << endl;
+    PrintTree(root, 0);
 
     //BinSTree<int> T;
     //T.Insert(40);

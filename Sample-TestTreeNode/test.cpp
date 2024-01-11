@@ -78,17 +78,29 @@ TreeNode<int>* createTree3() {
     return root;
 }
 
-BinSTree<int> createBST1() {
-    BinSTree<int> T;
-    T.Insert(20);
-    T.Insert(1);
-    T.Insert(73);
-    T.Insert(15);
-    T.Insert(65);
-    T.Insert(34);
-    T.Insert(10);
-    return T;
+TreeNode<int>* createTree4() {
+
+    //создаётся указатели на узлы дерева 
+    TreeNode<int>* rightleaf, * root;
+
+        //     8
+        //    / \
+        //   3   10
+        //  / \
+        // 1   6
+        //    /
+        //   4
+
+    root = new TreeNode<int>(8);
+    root->right = new TreeNode<int>(10);
+    root->left = new TreeNode<int>(3);
+    root->left->left = new TreeNode<int>(1);
+    root->left->right = new TreeNode<int>(6);
+    root->left->right->left = new TreeNode<int>(4);
+
+    return root;
 }
+
 
 TEST(TestTreeNode, TestVector) {
     TreeNode<int>* root1 = createTree1();
@@ -132,7 +144,6 @@ TEST(TestTreeNode, TestPostorder) {
     // тестируем наш метод
     assert(oss.str() == "1 4 7 6 3 13 14 10 8 ");
 }
-
 TEST(TestTreeNode, TestDepth) {
     TreeNode <int>* root1 = createTree1();
     assert(Depth(root1)==3);
@@ -143,7 +154,6 @@ TEST(TestTreeNode, TestDepth) {
     TreeNode <int>* root3 = createTree3();
     assert(Depth(root3) == 4);
 }
-
 TEST(TestTreeNode, TestCountLeaf) {
     int leafCount = 0;
     TreeNode <int>* root1 = createTree1();
@@ -155,7 +165,6 @@ TEST(TestTreeNode, TestCountLeaf) {
     TreeNode <int>* root3 = createTree3();
     assert(CountLeaf(root3, leafCount) == 1);
 }
-
 TEST(TestTreeNode, TestLevelScan) {
     TreeNode <int>* root6 = createTree1();
 
@@ -198,13 +207,53 @@ TEST(TestTreeNode, TestLevelScan) {
     // тестируем наш метод
     assert(oss3.str() == "6 9 50 38 4 ");
 }
+//ф-ия обхода LRN
+TEST(TestTreeNode, TestDeleteNode) {
+    TreeNode <int>* root10 = createTree4();
+    root10 = DeleteNode(root10, 3);
+    //Класс stringstream позволяет рассматривать строковый объект как поток. Он используется для работы со строками.
+    //Рассматривая строки как потоки, мы можем выполнять операции извлечения и вставки из/в строку так же, как потоки cin и cout.
+    std::ostringstream oss;
+    //Класс streambuf обеспечивает буферизацию данных во всех производных классах,
+    //которыми явно или неявно пользуется программист.
+    //rdbuf() позволяет нескольким объектам потоков данных читать из одного входного канала или записывать в один выходной канал без нарушения порядка ввода - вывода
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf(); //p_cout_streambuf имеет значение откуда считывать строку 
+    std::cout.rdbuf(oss.rdbuf());//рассматриваем строку как поток для дальнейшего извлечения.
 
+    Inorder(root10, visit_print);//вызываем метод в котором значение сразу выводиться в консоль
+
+    std::cout.rdbuf(p_cout_streambuf);
+
+    // тестируем наш метод
+    assert(oss.str() == "1 4 6 8 10 ");
+}
+
+
+BinSTree<int> createBST1() {
+    BinSTree<int> T;
+    T.Insert(20);
+    T.Insert(1);
+    T.Insert(73);
+    T.Insert(15);
+    T.Insert(65);
+    T.Insert(34);
+    T.Insert(10);
+    return T;
+}
 TEST(TestBST, TestVectorBST_Test) {
     BinSTree<int> E = createBST1();
-    std::vector<int> v4;
 
-    std::vector <int> V4{1,10,15,20,34,65,73};
-    E.treevactor(v4);
-    assert(V4 == v4);
-    
+    std::ostringstream oss;
+
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf(); 
+    std::cout.rdbuf(oss.rdbuf());
+    BinSTree<int>::iteratorBST iter = E.begin();
+    while (iter != E.end()) {
+        std::cout << *iter << " ";
+        ++iter;
+    }
+
+    std::cout.rdbuf(p_cout_streambuf);
+    assert(oss.str() == "1 10 15 20 34 65 73 ");
+
 }

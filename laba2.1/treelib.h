@@ -179,7 +179,7 @@ void Successor(TreeNode<T>* root, TreeNode<T>*& succ, int key) {
 
 // Рекурсивный метод для удаления узла из дерева
 template <typename T>
-TreeNode<T>* DeleteNode(TreeNode<T>* root, const T key) {
+TreeNode<T>* DeleteNode(TreeNode<T>* root, const T value) {
 
     // базовый случай
     if (root == nullptr) {
@@ -187,12 +187,12 @@ TreeNode<T>* DeleteNode(TreeNode<T>* root, const T key) {
     }
 
     // рекурсивный вызов функции, пока не будет найден узел, который нужно удалить
-    if (root->Data() > key) {
-        root->SetLeft(DeleteNode(root->Left(), key));
+    if (root->Data() > value) {
+        root->SetLeft(DeleteNode(root->Left(), value));
         return root;
     }
-    else if (root->Data() < key) {
-        root->SetRight(DeleteNode(root->Right(), key));
+    else if (root->Data() < value) {
+        root->SetRight(DeleteNode(root->Right(), value));
         return root;
     }
 

@@ -15,7 +15,7 @@ int main()
     setlocale(LC_ALL, "Russian");
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* leftleaf, * rightleaf, * root, *root1;
+    TreeNode<int>* leftleaf, * rightleaf, * root, *root1, *root2;
     //создание дерева 
     root = new TreeNode<int>(10);
     root->right = new TreeNode<int>(5);
@@ -72,23 +72,22 @@ int main()
        std::cout << vec.at(i) << ' ';
     }
     
-    //root = deleteNode(root, 5);
-    //cout << endl<<"Выводим дерево после удалении узла 5" << endl;
-    //Inorder(root, visit_print);  //обход дерева и вывод узлов
-    //PrintTree(root, 0);
+    root = DeleteNode(root, 2);
+    cout << endl<<"Выводим дерево после удалении узла 2" << endl;
+    Inorder(root, visit_print);  //обход дерева и вывод узлов
 
-    BinSTree<int> T;
-    T.Insert(40);
-    T.Insert(70);
-    T.Insert(45);
-    T.Insert(35);
-    T.treevactor(v);
-    
-    cout << endl << "Бинарное дерево:" << endl;
-    for (int i = 0; i < v.size(); i++) {
-        std::cout << v.at(i) << ' ';
-    }
-    
+    //BinSTree<int> T;
+    //T.Insert(40);
+    //T.Insert(70);
+    //T.Insert(45);
+    //T.Insert(35);
+    //T.treevactor(v);
+    //
+    //cout << endl << "Бинарное дерево:" << endl;
+    //for (int i = 0; i < v.size(); i++) {
+    //    std::cout << v.at(i) << ' ';
+    //}
+    //
     /*BinSTree<int>::iteratorBST iter = T.begin();
     while (iter != T.end()) {
         std::cout << *iter << " ";

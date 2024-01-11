@@ -1,5 +1,5 @@
 ﻿#include "pch.h"
-#include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treelib.h"
+#include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treelib.h"//исправить путь
 #include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treenode.h"
 #include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\binstree.h"
 #include <cassert>

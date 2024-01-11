@@ -12,7 +12,7 @@ class TreeNode
 
 {
 public:
-//Указатели на левый и правый порожденные узлы
+    //Указатели на левый и правый порожденные узлы
     TreeNode<T> *left;
     TreeNode<T> *right;
 
@@ -26,7 +26,7 @@ public:
     // Методы доступа к указателям на порожденные узлы
     TreeNode<T>* Left() const;
     TreeNode<T>* Right() const;
-
+    T Data() const;
     void SetData(T data1);
 
     void SetRight(TreeNode<T>* right1);
@@ -74,6 +74,13 @@ void TreeNode<T>::SetRight(TreeNode<T>* right1) {
 template <typename T>
 void TreeNode<T>::SetLeft(TreeNode<T>* left1) {
     this->left = left1;
+}
+
+// Метод Data возвращает значение поля данных
+template <typename T>
+T TreeNode<T>::Data() const
+{
+    return this->data;
 }
 
 //создает объект TreeNode с указательными полями lptr и rptr
@@ -172,43 +179,109 @@ void Successor(TreeNode<T>* root, TreeNode<T>*& succ, int key) {
 
 // Рекурсивный метод для удаления узла из дерева
 template <typename T>
-TreeNode<T>* deleteNode(TreeNode<T>* root, int key) {
+TreeNode<T>* DeleteNode(TreeNode<T>* root, const T key) {
+
+    // базовый случай
     if (root == nullptr) {
         return root;
     }
 
-    // Если значение ключа меньше значения корневого узла, рекурсивно ищем узел в левом поддереве
-    if (key < root->data) {
-        root->left = deleteNode(root->left, key);
+    // рекурсивный вызов функции, пока не будет найден узел, который нужно удалить
+    if (root->Data() > key) {
+        root->SetLeft(DeleteNode(root->Left(), key));
+        return root;
     }
-    // Если значение ключа больше значения корневого узла, рекурсивно ищем узел в правом поддереве
-    else if (key > root->data) {
-        root->right = deleteNode(root->right, key);
+    else if (root->Data() < key) {
+        root->SetRight(DeleteNode(root->Right(), key));
+        return root;
     }
-    // Если значение ключа равно значению корневого узла, то это узел, который нужно удалить
+
+    // Когда найден узел на удаление
+
+    // Случаи 1 и 2. если есть только 1 потомок или удалить необходимо лист (0 потомков)
+    // если нет левого потомка, то правый поднимается на место удаляемого узла
+    if (root->Left() == nullptr) {
+        TreeNode<T>* temp = root->Right();
+        delete root;
+        return temp;
+    }
+    // если нет правого потомка, то левый поднимается на место удаляемого узла
+    else if (root->Right() == nullptr) {
+        TreeNode<T>* temp = root->Left();
+        delete root;
+        return temp;
+    }
+
+    // Случай 3. если есть оба потомка
     else {
-        // Если у узла нет потомков или только один потомок, то просто удаляем узел, заменяя его на соответствующего потомка
-        if (root->left == nullptr) {
-            TreeNode<T>* temp = root->right;
-            delete root;
-            return temp;
-        }
-        else if (root->right == nullptr) {
-            TreeNode<T>* temp = root->left;
-            delete root;
-            return temp;
+
+        // узел, который является родителем ближайшего наибольшего
+        TreeNode<T>* succParent = root;
+
+        // Находим ближайшее наибольшее (самый левый узел в правом поддереве) и его родителя
+        TreeNode<T>* succ = root->Right();
+        while (succ->Left() != nullptr) {
+            succParent = succ;
+            succ = succ->Left();
         }
 
-        // Если у узла есть два потомка, то находим наименьший узел в правом поддереве (или наибольший в левом поддереве)
-        // и заменяем текущий узел на найденный узел, а затем удаляем найденный узел
-        TreeNode<T>* temp = root->right;
-        while (temp->left != nullptr) {
-            temp = temp->left;
-        }
 
-        root->data = temp->data;
-        root->right = deleteNode(root->right, temp->data);
+        // задача сводится к случаю удаления узла только с правым потомком
+        // правого потомка ближайшего наибольшего делаем левым потомком родителя
+        // ближайшего наибольшего
+
+        if (succParent != root)
+            succParent->SetLeft(succ->Right());
+        else
+            // если спуска по левому поддереву не было
+            succParent->SetRight(succ->Right());
+
+
+        // данные из ближайшего наибольшего переносятся на место удаляемого узла
+        root->SetData(succ->Data());
+
+        // Удаляем ближайшее наибольшее
+        delete succ;
+        return root;
     }
+    
+    
+    //if (root == nullptr) {
+    //    return root;
+    //}
 
-    return root;
+    //// Если значение ключа меньше значения корневого узла, рекурсивно ищем узел в левом поддереве
+    //if (key < root->data) {
+    //    root->left = DeleteNode(root->left, key);
+    //}
+    //// Если значение ключа больше значения корневого узла, рекурсивно ищем узел в правом поддереве
+    //else if (key > root->data) {
+    //    root->right = DeleteNode(root->right, key);
+    //}
+    //// Если значение ключа равно значению корневого узла, то это узел, который нужно удалить
+    //else {
+    //    // Если у узла нет потомков или только один потомок, то просто удаляем узел, заменяя его на соответствующего потомка
+    //    if (root->left == nullptr) {
+    //        TreeNode<T>* temp = root->right;
+    //        delete root;
+    //        return temp;
+    //    }
+    //    else if (root->right == nullptr) {
+    //        TreeNode<T>* temp = root->left;
+    //        delete root;
+    //        return temp;
+    //    }
+
+    //    // Если у узла есть два потомка, то находим наименьший узел в правом поддереве (или наибольший в левом поддереве)
+    //    // и заменяем текущий узел на найденный узел, а затем удаляем найденный узел
+    //    TreeNode<T>* temp = root->right;
+    //    while (temp->left != nullptr) {
+    //        temp = temp->left;
+    //    }
+
+    //    root->data = temp->data;
+    //    root->right = DeleteNode(root->right, temp->data);
+    //}
+
+    //return root;
 }

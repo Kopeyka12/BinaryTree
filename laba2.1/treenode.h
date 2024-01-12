@@ -124,7 +124,7 @@ TreeNode<T>* CopyTree(TreeNode<T>* t) {
         newrptr = nullptr;
     //построить новое дерево снизу верх
     //сначала создавая двух сыновей, а затем их родителя
-    newnode = GetTreeNode(t->data, newlptr, newrptr);
+    newnode = new TreeNode<T>(t->Data(), newlptr, newrptr);
 
     //вернуть указатель на новое созданное дерево
     return newnode;
@@ -180,4 +180,25 @@ void vactornode(TreeNode<T>* root, std::vector<T>& vec) {
         vec.push_back(root->data);
         vactornode(root->right, vec);
     }
+}
+
+template <typename T>
+int SearchNode(TreeNode<T>* root, const T key, int depth = 0) {
+    // если дошли до nullptr, до искомого значения в дереве нет
+    if (root == nullptr) {
+        return -1;
+    }
+
+    // поиск в правом поддереве
+    if (key > root->Data()) {
+        SearchNode(root->Right(), key, depth + 1);
+    }
+
+    // поиск в левом поддереве
+    else if (key < root->Data()) {
+        SearchNode(root->Left(), key, depth + 1);
+    }
+
+    // если key равен значению в текущем узле
+    else return depth;
 }

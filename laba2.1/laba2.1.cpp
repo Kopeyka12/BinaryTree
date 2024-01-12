@@ -78,17 +78,30 @@ int main()
     cout << endl;
     PrintTree(root, 0);
 
-    //BinSTree<int> T;
-    //T.Insert(40);
-    //T.Insert(70);
-    //T.Insert(45);
-    //T.Insert(35);
-    //T.treevactor(v);
-    //
-    //cout << endl << "Бинарное дерево:" << endl;
-    //for (int i = 0; i < v.size(); i++) {
-    //    std::cout << v.at(i) << ' ';
-    //}
+    BinSTree<int> T;
+    T.Insert(40);
+    T.Insert(70);
+    T.Insert(45);
+    T.Insert(35);
+    
+    
+    root2 = new TreeNode<int>(8);
+    root2->right = new TreeNode<int>(10);
+    root2->left = new TreeNode<int>(3);
+    root2->left->left = new TreeNode<int>(1);
+    root2->left->right = new TreeNode<int>(6);
+    root2->left->right->left = new TreeNode<int>(4);
+    BinSTree<int> b(root2);
+
+    b.Insert(22);
+    b.treevactor(v);
+    
+    cout << endl << "Бинарное дерево:" << endl;
+    for (int i = 0; i < v.size(); i++) {
+        std::cout << v.at(i) << ' ';
+    }
+    int level = b.Find(6);
+    cout <<level << endl;
     //
     /*BinSTree<int>::iteratorBST iter = T.begin();
     while (iter != T.end()) {

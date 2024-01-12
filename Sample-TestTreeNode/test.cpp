@@ -101,7 +101,6 @@ TreeNode<int>* createTree4() {
     return root;
 }
 
-
 TEST(TestTreeNode, TestVector) {
     TreeNode<int>* root1 = createTree1();
     const std::vector <int> V1 {1,3,4,6,7,8,10,13,14};
@@ -228,32 +227,211 @@ TEST(TestTreeNode, TestDeleteNode) {
     assert(oss.str() == "1 4 6 8 10 ");
 }
 
+TreeNode<int>* createTreeBST() {
 
-BinSTree<int> createBST1() {
-    BinSTree<int> T;
-    T.Insert(20);
-    T.Insert(1);
-    T.Insert(73);
-    T.Insert(15);
-    T.Insert(65);
-    T.Insert(34);
-    T.Insert(10);
-    return T;
+    //создаётся указатели на узлы дерева 
+    TreeNode<int>* rightleaf, * root;
+
+
+    //       3
+    //        \
+    //         8
+    //          \
+    //           38
+    //            \
+    //             50
+
+    root = new TreeNode<int>(3);
+    root->right = new TreeNode<int>(8);
+    root->right->right = new TreeNode<int>(38);
+    root->right->right->right = new TreeNode<int>(50);
+    return root;
 }
+
+TreeNode<int>* createTreeBST2() {
+
+    //создаётся указатели на узлы дерева 
+    TreeNode<int>* rightleaf, * root;
+
+
+    //       4
+    //      / \
+    //     6   38
+    //    /     \
+    //   9       50
+
+    root = new TreeNode<int>(9);
+    root->left = new TreeNode<int>(6);
+    root->left->left = new TreeNode<int>(4);
+    root->right = new TreeNode<int>(38);
+    root->right->right = new TreeNode<int>(50);
+    return root;
+}
+
+TreeNode<int>* createTreeBST3() {
+
+    //создаётся указатели на узлы дерева 
+    TreeNode<int>* rightleaf, * root;
+
+        //     8
+        //    / \
+        //   3   10
+        //  / \
+        // 1   6
+        //    /
+        //   4
+
+    root = new TreeNode<int>(8);
+    root->right = new TreeNode<int>(10);
+    root->left = new TreeNode<int>(3);
+    root->left->left = new TreeNode<int>(1);
+    root->left->right = new TreeNode<int>(6);
+    root->left->right->left = new TreeNode<int>(4);
+
+    return root;
+}
+
 TEST(TestBST, TestVectorBST_Test) {
-    BinSTree<int> E = createBST1();
-
+    BinSTree<int> tr1(createTree1());
+    std::vector<int> v;
     std::ostringstream oss;
-
+    
+    tr1.Insert(2);
+    tr1.treevactor(v);
+    
     std::streambuf* p_cout_streambuf = std::cout.rdbuf(); 
     std::cout.rdbuf(oss.rdbuf());
-    BinSTree<int>::iteratorBST iter = E.begin();
-    while (iter != E.end()) {
-        std::cout << *iter << " ";
-        ++iter;
+   
+    for (int i = 0; i < v.size(); i++) {
+        std::cout << v.at(i) << ' ';
     }
 
     std::cout.rdbuf(p_cout_streambuf);
-    assert(oss.str() == "1 10 15 20 34 65 73 ");
+    assert(oss.str() == "1 2 3 4 6 7 8 10 13 14 ");
 
+
+    BinSTree<int> tr2(createTreeBST());
+    std::vector<int> v2;
+    std::ostringstream oss2;
+    
+    tr2.Insert(5);
+    tr2.treevactor(v2);
+
+    std::streambuf* p_cout_streambuf2 = std::cout.rdbuf();
+    std::cout.rdbuf(oss2.rdbuf());
+
+    for (int i = 0; i < v2.size(); i++) {
+        std::cout << v2.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf2);
+    assert(oss2.str() == "3 5 8 38 50 ");
+
+
+    BinSTree<int> tr3(createTreeBST2());
+    std::vector<int> v3;
+    std::ostringstream oss3;
+
+    tr3.Insert(40);
+    tr3.treevactor(v3);
+
+    std::streambuf* p_cout_streambuf3 = std::cout.rdbuf();
+    std::cout.rdbuf(oss3.rdbuf());
+
+    for (int i = 0; i < v3.size(); i++) {
+        std::cout << v3.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf3);
+    assert(oss3.str() == "4 6 9 38 40 50 ");
+
+    BinSTree<int> tr4(createTreeBST3());
+    std::vector<int> v4;
+    std::ostringstream oss4;
+
+    tr4.Insert(22);
+    tr4.treevactor(v4);
+
+    std::streambuf* p_cout_streambuf4 = std::cout.rdbuf();
+    std::cout.rdbuf(oss4.rdbuf());
+
+    for (int i = 0; i < v4.size(); i++) {
+        std::cout << v4.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf4);
+    assert(oss4.str() == "1 3 4 6 8 10 22 ");
+}
+
+
+TEST(TestBST, TestVectorBST_Test) {
+    BinSTree<int> tr1(createTree1());
+    std::vector<int> v;
+    std::ostringstream oss;
+
+    tr1.Insert(2);
+    tr1.treevactor(v);
+
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf();
+    std::cout.rdbuf(oss.rdbuf());
+
+    for (int i = 0; i < v.size(); i++) {
+        std::cout << v.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf);
+    assert(oss.str() == "1 2 3 4 6 7 8 10 13 14 ");
+
+
+    /*BinSTree<int> tr2(createTreeBST());
+    std::vector<int> v2;
+    std::ostringstream oss2;
+
+    tr2.Insert(5);
+    tr2.treevactor(v2);
+
+    std::streambuf* p_cout_streambuf2 = std::cout.rdbuf();
+    std::cout.rdbuf(oss2.rdbuf());
+
+    for (int i = 0; i < v2.size(); i++) {
+        std::cout << v2.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf2);
+    assert(oss2.str() == "3 5 8 38 50 ");
+
+
+    BinSTree<int> tr3(createTreeBST2());
+    std::vector<int> v3;
+    std::ostringstream oss3;
+
+    tr3.Insert(40);
+    tr3.treevactor(v3);
+
+    std::streambuf* p_cout_streambuf3 = std::cout.rdbuf();
+    std::cout.rdbuf(oss3.rdbuf());
+
+    for (int i = 0; i < v3.size(); i++) {
+        std::cout << v3.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf3);
+    assert(oss3.str() == "4 6 9 38 40 50 ");
+
+    BinSTree<int> tr4(createTreeBST3());
+    std::vector<int> v4;
+    std::ostringstream oss4;
+
+    tr4.Insert(22);
+    tr4.treevactor(v4);
+
+    std::streambuf* p_cout_streambuf4 = std::cout.rdbuf();
+    std::cout.rdbuf(oss4.rdbuf());
+
+    for (int i = 0; i < v4.size(); i++) {
+        std::cout << v4.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf4);
+    assert(oss4.str() == "1 3 4 6 8 10 22 ");*/
 }

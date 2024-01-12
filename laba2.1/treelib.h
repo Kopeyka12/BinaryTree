@@ -41,9 +41,12 @@ public:
 //По умолчанию указатели содержат NULL.
 
 template <class T>
-TreeNode<T>::TreeNode(const T& item, TreeNode<T>* lptr, TreeNode<T>* rptr) :
-    
-    data(item), left(lptr), right(rptr) { }
+TreeNode<T>::TreeNode(const T& item, TreeNode<T>* lptr, TreeNode<T>* rptr) {
+
+    data = item;
+    left = lptr;
+    right = rptr;
+    }
 
 template<class T>
 inline TreeNode<T>* TreeNode<T>::Left() const
@@ -86,25 +89,26 @@ T TreeNode<T>::Data() const
 //создает объект TreeNode с указательными полями lptr и rptr
 //по умолчанию указатели nullptr
 template <class T>
-TreeNode<T>* GetTreeNode(T item, TreeNode<T>* lptr = nullptr,
-
-    TreeNode<T>* rptr = nullptr)//
+TreeNode<T>* GetTreeNode(TreeNode<T>* root, const T value)//
 {
-    TreeNode<T>* p;
-    //Вызвать new для создания нового узла
-    //Передать туда параметры lptr и rptr
-    p = new TreeNode<T>(item, lptr, rptr);
+    if (root == nullptr) {
 
-    //Если памяти недостаточно, завершить
-    //программу сообщением об ошибке
-    if (p == nullptr)
-    {
-        std::cerr << "Ошибка при выделении памяти!\n";
-        
-        exit(1);
+        // если дерево пустое, то создаём корень (первый узел)
+        return new TreeNode<T>(value);
     }
-    //Вернуть указатель на выделенную системой память
-    return p;
+
+    // Вставляем данные либо в левое, либо в правое поддерево
+    if (value > root->Data()) {
+        // если значение, которое нужно добавить, больше текущего
+        root->SetRight(GetTreeNode(root->Right(), value));
+    }
+    else if (value < root->Data()) {
+        // если значение, которое нужно добавить, меньше текущего
+        root->SetLeft(GetTreeNode(root->Left(), value));
+    }
+
+    //возвращаем корень дерева
+    return root;
 }
 
 //Освободить динамическую память, занимаемую данным узлом
@@ -244,4 +248,18 @@ TreeNode<T>* DeleteNode(TreeNode<T>* root, const T value) {
         delete succ;
         return root;
     }
+}
+
+// Нахождение количества узлов в дереве
+template <typename T>
+unsigned int treeCount(TreeNode<T>* root)
+{
+    if (root == nullptr) {
+        return 0;
+    }
+
+    unsigned int l = treeCount(root->Left());
+    unsigned int r = treeCount(root->Right());
+
+    return 1 + l + r;
 }

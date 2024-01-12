@@ -10,7 +10,7 @@
 template <class T>
 class BinSTree
 {
-protected:
+private:
 	//указатели на корень и на текущий узел
 	TreeNode<T>* root;
 	TreeNode<T>* current;
@@ -22,7 +22,10 @@ protected:
 	TreeNode<T>* FindNode(const T& item) const;
 public:
 	BinSTree();
+	BinSTree(TreeNode<T>* tree);
 
+	// деструктор
+	~BinSTree() { DeleteTree(this->root); }
 	//Класс итератора
 	class iteratorBST {
 	private:
@@ -83,7 +86,7 @@ public:
 
 
 		//стандартные методы обработки списков
-		int Find(T& item);
+		int Find(const T& item) const;
 		void Insert(const T& item);
 		void Delete(const T& item);
 		void Update(const T& item);
@@ -97,57 +100,28 @@ BinSTree<T>::BinSTree()
 	TreeNode<T>* root = nullptr; TreeNode<T>* current = nullptr; int size = 0;
 }
 
+// конструктор с параметрами
+template <typename T>
+BinSTree<T>::BinSTree(TreeNode<T>* tree)
+{
+	this->root = CopyTree(tree);
+	this->current = nullptr;
+	this->size = treeCount(this->root);
+}
+
 //искать item, если найден, присвоить данные узла параметру item
 template<class T>
-int BinSTree<T>::Find(T& item)
+int BinSTree<T>::Find(const T& item)const
 {
-	//используем FindNode принимающий параметр parent
-	TreeNode<T>* parent;
-	
-	//искать item назначить совпавший узел текущим
-	current = FindNode(item);
-
-	//если найден, присвоить данные узла и возвратить True
-	if (current!= nullptr)
-	{
-		item = current->data;
-		return 1;
-	}
-	else
-		//item не нейден, возвратим False
-		return 0;
+	return SearchNode(this->root, item);
 }
 
 //вставить item в дерева поиска
 template<class T>
 void BinSTree<T>::Insert(const T& item)
 {
-	//t-текущий узел, parent-предыдущий узел
-	TreeNode<T>* t = root, * parent = nullptr, * newNode;
-	//закончить на пустом дереве
-	while (t !=nullptr)
-	{
-		//обновить указатель parent и идти направа или влево
-		parent = t;
-		if (item < t->data)
-			t = t->left;
-		else
-			t = t->right;
-	}
-	//если родителя нет, вставить в качестве корневого узла
-	newNode = GetTreeNode<T>(item, nullptr, nullptr);
-	if (parent == nullptr)
-		root = newNode;
-	//если item меньше родительского узла, вставить в качестве левого сына
-	else if (item < parent->data)
-		parent->left = newNode;
-	else
-		//если item больше или равен родительскому узлу
-		//вставить  в качесте правого сына
-		parent->right = newNode;
-	//присвоить указателю current адрес нового узла и увеличить size на 1
-	current = newNode;
-	size++;
+	this->root = GetTreeNode(this->root, item);
+	size = treeCount(this->root);
 }
 
 //если элемент находиться в дереве, то удалить его

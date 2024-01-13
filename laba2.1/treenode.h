@@ -1,3 +1,5 @@
+//@avtor Мирошин В. И.
+//Функции для работы с деревьями 
 #pragma once
 #include <iostream>
 #include <queue>

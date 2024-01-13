@@ -1,6 +1,7 @@
 ﻿// lab 2.1.2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
-
+//@avtor Мирошин В. И.
+//Основная программа
 #include <iostream>
 #include "treelib.h"
 #include "treenode.h"
@@ -87,21 +88,22 @@ int main()
     
     root2 = new TreeNode<int>(8);
     root2->right = new TreeNode<int>(10);
+    root2->right->right = new TreeNode<int>(14);
+    root2->right->right->left = new TreeNode<int>(13);
     root2->left = new TreeNode<int>(3);
     root2->left->left = new TreeNode<int>(1);
     root2->left->right = new TreeNode<int>(6);
+    root2->left->right->right = new TreeNode<int>(7);
     root2->left->right->left = new TreeNode<int>(4);
     BinSTree<int> b(root2);
-
-    b.Insert(22);
+    b.Delete(6);
     b.treevactor(v);
     
     cout << endl << "Бинарное дерево:" << endl;
     for (int i = 0; i < v.size(); i++) {
         std::cout << v.at(i) << ' ';
     }
-    int level = b.Find(6);
-    cout <<level << endl;
+    
     //
     /*BinSTree<int>::iteratorBST iter = T.begin();
     while (iter != T.end()) {

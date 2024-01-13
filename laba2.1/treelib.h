@@ -1,6 +1,7 @@
+//@avtor Мирошин В. И.
+//Класс Бинарного дерева поиска
 #pragma once
 #include <cassert>
-//#include <TestTreeNode.cpp>
 //Предварительное описание класса «бинарное дерево поиска»
 
 template <class T>

@@ -291,7 +291,7 @@ TreeNode<int>* createTreeBST3() {
     return root;
 }
 
-TEST(TestBST, TestVectorBST_Test) {
+TEST(TestBST, TestInsertBST_Test) {
     BinSTree<int> tr1(createTree1());
     std::vector<int> v;
     std::ostringstream oss;
@@ -364,12 +364,36 @@ TEST(TestBST, TestVectorBST_Test) {
 }
 
 
-TEST(TestBST, TestVectorBST_Test) {
+TEST(TestBST, TestFind_Test) {
+
+    BinSTree<int> tr1(createTreeBST());
+    int l1 = tr1.Find(38);
+    int l2 = tr1.Find(15);
+
+    assert(l1 == 2);
+    assert(l2 == -1);
+
+    BinSTree<int> tr2(createTreeBST2());
+    l1 = tr2.Find(9);
+    l2 = tr2.Find(100);
+
+    assert(l1 == 0);
+    assert(l2 == -1);
+    
+    BinSTree<int> tr3(createTreeBST3());
+    l1 = tr3.Find(8);
+    l2 = tr3.Find(15);
+
+    assert(l1 == 0);
+    assert(l2 == -1);
+}
+
+TEST(TestBST, TestDelete_Test) {
     BinSTree<int> tr1(createTree1());
     std::vector<int> v;
     std::ostringstream oss;
 
-    tr1.Insert(2);
+    tr1.Delete(6);
     tr1.treevactor(v);
 
     std::streambuf* p_cout_streambuf = std::cout.rdbuf();
@@ -380,14 +404,13 @@ TEST(TestBST, TestVectorBST_Test) {
     }
 
     std::cout.rdbuf(p_cout_streambuf);
-    assert(oss.str() == "1 2 3 4 6 7 8 10 13 14 ");
+    assert(oss.str() == "1 3 4 7 8 10 13 14 ");
 
-
-    /*BinSTree<int> tr2(createTreeBST());
+    BinSTree<int> tr2(createTreeBST());
     std::vector<int> v2;
     std::ostringstream oss2;
 
-    tr2.Insert(5);
+    tr2.Delete(50);
     tr2.treevactor(v2);
 
     std::streambuf* p_cout_streambuf2 = std::cout.rdbuf();
@@ -398,14 +421,14 @@ TEST(TestBST, TestVectorBST_Test) {
     }
 
     std::cout.rdbuf(p_cout_streambuf2);
-    assert(oss2.str() == "3 5 8 38 50 ");
+    assert(oss2.str() == "3 8 38 ");
 
 
     BinSTree<int> tr3(createTreeBST2());
     std::vector<int> v3;
     std::ostringstream oss3;
 
-    tr3.Insert(40);
+    tr3.Delete(4);
     tr3.treevactor(v3);
 
     std::streambuf* p_cout_streambuf3 = std::cout.rdbuf();
@@ -416,13 +439,13 @@ TEST(TestBST, TestVectorBST_Test) {
     }
 
     std::cout.rdbuf(p_cout_streambuf3);
-    assert(oss3.str() == "4 6 9 38 40 50 ");
+    assert(oss3.str() == "6 9 38 50 ");
 
     BinSTree<int> tr4(createTreeBST3());
     std::vector<int> v4;
     std::ostringstream oss4;
 
-    tr4.Insert(22);
+    tr4.Delete(8);
     tr4.treevactor(v4);
 
     std::streambuf* p_cout_streambuf4 = std::cout.rdbuf();
@@ -433,5 +456,5 @@ TEST(TestBST, TestVectorBST_Test) {
     }
 
     std::cout.rdbuf(p_cout_streambuf4);
-    assert(oss4.str() == "1 3 4 6 8 10 22 ");*/
+    assert(oss4.str() == "1 3 4 6 10 ");
 }

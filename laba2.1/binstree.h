@@ -1,3 +1,5 @@
+//@avtor Мирошин В. И.
+//Класс Итератора для бинарного дрерва поиска
 #pragma once
 #include <iostream>
 #include <stdlib.h>
@@ -128,70 +130,8 @@ void BinSTree<T>::Insert(const T& item)
 template<class T>
 void BinSTree<T>::Delete(const T& item)
 {
-	//DNodePtr - указатель на удаляемый узел D
-	//PNodePtr - указатель на родительский узел P узла D
-	//RNodePtr - указатель узл R, замещающий узел D
-	TreeNode<T>* DNodePtr, * PNodePtr, * RNodePtr;
-
-	//найти узел, данные в котором совпадают с item
-	//получить его адрес и адрес его родителя
-	if ((DNodePtr = FindNode(item)) == nullptr)
-		return;
-	//если узел D имеет nullptr-указатель, то заменяющим
-	//узлом является тот, чо находится на другой ветви
-	if (DNodePtr->right == nullptr)
-		RNodePtr = DNodePtr->left;
-	else if (DNodePtr->left == nullptr)
-		RNodePtr = DNodePtr->right;
-
-	//если узел D имеет двух сыновей
-	else
-	{
-		//найти и отсоединить заменяющий узел R для узла D
-		//в левом поддерове узла D найти максимальный узел
-		//из всех узлов, меньших чемузел D
-		//отсоединить этот узел от дерева
-		//PofRNodePtr - укзатель на родителя заменяющего узла
-		TreeNode<T>* PofRNodePtr = DNodePtr;
-		
-		//первой возможной заменой является левый сын узла D
-		RNodePtr = DNodePtr->left;
-
-		//спуститься вниз по прравому поддереву левого сына узла D,
-		//сохраняя записть текущего узла и его родителя
-		//остановившись, мы будем иметь заменяющий узел
-		while (RNodePtr->right != nullptr)
-		{
-			PofRNodePtr = RNodePtr->right;
-			RNodePtr = RNodePtr->right;
-		};
-
-		if (PofRNodePtr == DNodePtr)
-			//левый сын удаляемого узла является заменяющим
-			//присоединить правое поддерево узла D к узлу R
-			RNodePtr->right = DNodePtr->right;
-		else
-		{
-			//левый сын удаляемого вниз по правой ветви как минимум на один узел
-			//удалить заменяющий узел из дерева
-			//присоединив его правую ветвь к родительскому узлу
-			PofRNodePtr->right = RNodePtr->left;
-		}
-	}
-
-	//завершить присоединение к родительсокму узлу
-	//удалить корневой узел назначить новый корень
-	if (RNodePtr == nullptr)
-		root = RNodePtr;
-	//присоединить узел R к узлу P c gправильной стороны
-	else if (DNodePtr->data < PNodePtr->data)
-		PNodePtr->left = RNodePtr;
-	else
-		PNodePtr->right = RNodePtr;
-
-	//удалить узел из памяти и уменьшить размер списка
-	FreeTreeNode(DNodePtr);
-	size--;
+	this->root = DeleteNode(this->root, item);
+	size = treeCount(this->root);
 }
 
 template<class T>

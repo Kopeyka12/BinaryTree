@@ -84,8 +84,11 @@ int main()
     T.Insert(70);
     T.Insert(45);
     T.Insert(35);
-    
-    
+     
+    for (BinSTree<int>::BinSTreeIterator<int> it1 = T.begin(); it1 != T.end(); ++it1) {
+        cout << *it1 << " ";
+    }
+
     root2 = new TreeNode<int>(8);
     root2->right = new TreeNode<int>(10);
     root2->right->right = new TreeNode<int>(14);
@@ -104,12 +107,8 @@ int main()
         std::cout << v.at(i) << ' ';
     }
     
-    //
-    /*BinSTree<int>::iteratorBST iter = T.begin();
-    while (iter != T.end()) {
-        std::cout << *iter << " ";
-        ++iter;
-    }*/
+    
+   
     
 }
 

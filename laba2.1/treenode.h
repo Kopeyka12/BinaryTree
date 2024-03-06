@@ -183,7 +183,7 @@ void vactornode(TreeNode<T>* root, std::vector<T>& vec) {
         vactornode(root->right, vec);
     }
 }
-
+//поиск узла в дереве
 template <typename T>
 int SearchNode(TreeNode<T>* root, const T key, int depth = 0) {
     // если дошли до nullptr, до искомого значения в дереве нет

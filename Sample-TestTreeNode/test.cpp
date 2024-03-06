@@ -1,7 +1,9 @@
-﻿#include "pch.h"
-#include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treelib.h"//исправить путь
-#include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\treenode.h"
-#include "C:\Users\Влад\Desktop\Учеба\УЧЁБА\2 курс\4 семестр\САОД\laba2.1\laba2.1\binstree.h"
+﻿//@avtor Мирошин В. И.
+//Тест методов классов 
+#include "pch.h"
+#include "..\laba2.1\treelib.h"
+#include "..\laba2.1\treenode.h"
+#include "..\laba2.1\binstree.h"
 #include <cassert>
 #include <sstream>
 TreeNode<int>* createTree1() {
@@ -17,7 +19,7 @@ TreeNode<int>* createTree1() {
 
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* leftleaf, * rightleaf, * root;
+    TreeNode<int> * root;
     //создание дерева 
     root = new TreeNode<int>(8);
     root->right = new TreeNode<int>(10);
@@ -35,7 +37,7 @@ TreeNode<int>* createTree1() {
 TreeNode<int>* createTree2() {
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* rightleaf, * root;
+    TreeNode<int> * root;
 
 
     //       3
@@ -53,11 +55,10 @@ TreeNode<int>* createTree2() {
     return root;
 }
 
-
 TreeNode<int>* createTree3() {
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* rightleaf, * root;
+    TreeNode<int> * root;
 
 
     //       6
@@ -81,7 +82,7 @@ TreeNode<int>* createTree3() {
 TreeNode<int>* createTree4() {
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* rightleaf, * root;
+    TreeNode<int> * root;
 
         //     8
         //    / \
@@ -102,6 +103,14 @@ TreeNode<int>* createTree4() {
 }
 
 TEST(TestTreeNode, TestVector) {
+    //        8
+    //     /    \
+    //    3      10
+    //   / \      \
+    //  1   6      14
+    //     / \     /
+    //    4   7  13
+    
     TreeNode<int>* root1 = createTree1();
     const std::vector <int> V1 {1,3,4,6,7,8,10,13,14};
     
@@ -125,6 +134,14 @@ TEST(TestTreeNode, TestVector) {
 }
 //ф-ия обхода LRN
 TEST(TestTreeNode, TestPostorder) {
+    //        8
+    //     /    \
+    //    3      10
+    //   / \      \
+    //  1   6      14
+    //     / \     /
+    //    4   7  13
+    
     TreeNode <int>* root4 = createTree1();
 
     //Класс stringstream позволяет рассматривать строковый объект как поток. Он используется для работы со строками.
@@ -144,6 +161,13 @@ TEST(TestTreeNode, TestPostorder) {
     assert(oss.str() == "1 4 7 6 3 13 14 10 8 ");
 }
 TEST(TestTreeNode, TestDepth) {
+    //        8
+    //     /    \
+    //    3      10
+    //   / \      \
+    //  1   6      14
+    //     / \     /
+    //    4   7  13
     TreeNode <int>* root1 = createTree1();
     assert(Depth(root1)==3);
 
@@ -154,6 +178,14 @@ TEST(TestTreeNode, TestDepth) {
     assert(Depth(root3) == 4);
 }
 TEST(TestTreeNode, TestCountLeaf) {
+    //        8
+    //     /    \
+    //    3      10
+    //   / \      \
+    //  1   6      14
+    //     / \     /
+    //    4   7  13
+    
     int leafCount = 0;
     TreeNode <int>* root1 = createTree1();
     assert(CountLeaf(root1, leafCount) == 4);
@@ -207,30 +239,14 @@ TEST(TestTreeNode, TestLevelScan) {
     assert(oss3.str() == "6 9 50 38 4 ");
 }
 //ф-ия обхода LRN
-TEST(TestTreeNode, TestDeleteNode) {
-    TreeNode <int>* root10 = createTree4();
-    root10 = DeleteNode(root10, 3);
-    //Класс stringstream позволяет рассматривать строковый объект как поток. Он используется для работы со строками.
-    //Рассматривая строки как потоки, мы можем выполнять операции извлечения и вставки из/в строку так же, как потоки cin и cout.
-    std::ostringstream oss;
-    //Класс streambuf обеспечивает буферизацию данных во всех производных классах,
-    //которыми явно или неявно пользуется программист.
-    //rdbuf() позволяет нескольким объектам потоков данных читать из одного входного канала или записывать в один выходной канал без нарушения порядка ввода - вывода
-    std::streambuf* p_cout_streambuf = std::cout.rdbuf(); //p_cout_streambuf имеет значение откуда считывать строку 
-    std::cout.rdbuf(oss.rdbuf());//рассматриваем строку как поток для дальнейшего извлечения.
 
-    Inorder(root10, visit_print);//вызываем метод в котором значение сразу выводиться в консоль
 
-    std::cout.rdbuf(p_cout_streambuf);
 
-    // тестируем наш метод
-    assert(oss.str() == "1 4 6 8 10 ");
-}
 
 TreeNode<int>* createTreeBST() {
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* rightleaf, * root;
+    TreeNode<int> * root;
 
 
     //       3
@@ -251,7 +267,7 @@ TreeNode<int>* createTreeBST() {
 TreeNode<int>* createTreeBST2() {
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* rightleaf, * root;
+    TreeNode<int> * root;
 
 
     //       4
@@ -271,7 +287,7 @@ TreeNode<int>* createTreeBST2() {
 TreeNode<int>* createTreeBST3() {
 
     //создаётся указатели на узлы дерева 
-    TreeNode<int>* rightleaf, * root;
+    TreeNode<int> * root;
 
         //     8
         //    / \
@@ -292,6 +308,14 @@ TreeNode<int>* createTreeBST3() {
 }
 
 TEST(TestBST, TestInsertBST_Test) {
+    //        8
+    //     /    \
+    //    3      10
+    //   / \      \
+    //  1   6      14
+    //     / \     /
+    //    4   7  13
+    
     BinSTree<int> tr1(createTree1());
     std::vector<int> v;
     std::ostringstream oss;
@@ -362,7 +386,6 @@ TEST(TestBST, TestInsertBST_Test) {
     std::cout.rdbuf(p_cout_streambuf4);
     assert(oss4.str() == "1 3 4 6 8 10 22 ");
 }
-
 
 TEST(TestBST, TestFind_Test) {
 
@@ -457,4 +480,141 @@ TEST(TestBST, TestDelete_Test) {
 
     std::cout.rdbuf(p_cout_streambuf4);
     assert(oss4.str() == "1 3 4 6 10 ");
+}
+
+TEST(TestBST, TestConstructor_Test) {
+    
+    //ТЕСТ КОНСТРУКТОР КОПИРОВАНИЯ
+    //        8
+    //     /    \
+    //    3      10
+    //   / \      \
+    //  1   6      14
+    //     / \     /
+    //    4   7  13
+    
+    BinSTree<int> tr1(createTree1());
+    BinSTree<int> tr2(tr1);
+
+    std::vector<int> v;
+    std::ostringstream oss;
+
+    tr2.treevactor(v);
+
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf();
+    std::cout.rdbuf(oss.rdbuf());
+
+    for (int i = 0; i < v.size(); i++) {
+        std::cout << v.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf);
+    assert(oss.str() == "1 3 4 6 7 8 10 13 14 ");
+
+    //ТЕСТ ОПЕРАТОРА ПРИСВАИВАНИЯ
+    BinSTree<int> tr3 = tr1;
+
+    std::vector<int> v2;
+    std::ostringstream oss2;
+
+    tr3.treevactor(v2);
+
+    std::streambuf* p_cout_streambuf2 = std::cout.rdbuf();
+    std::cout.rdbuf(oss2.rdbuf());
+
+    for (int i = 0; i < v2.size(); i++) {
+        std::cout << v2.at(i) << ' ';
+    }
+
+    std::cout.rdbuf(p_cout_streambuf2);
+    assert(oss2.str() == "1 3 4 6 7 8 10 13 14 ");
+}
+
+TEST(TestTreeNode, TestDeleteNode) {
+    //Ситуация 1. Удаляем узел у которого есть 2 потомка
+        //     8
+        //    / \
+        //   3   10
+        //  / \
+        // 1   6
+        //    /
+        //   4
+    TreeNode <int>* root10 = createTree3();
+    root10 = DeleteNode(root10, 3);
+    
+    std::ostringstream oss;
+    
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf(); 
+    std::cout.rdbuf(oss.rdbuf());
+
+    Inorder(root10, visit_print);
+
+    std::cout.rdbuf(p_cout_streambuf);
+
+    // тестируем наш метод
+    assert(oss.str() == "1 4 6 8 10 ");
+
+    //Ситуация 2. Удаляем узел у которого есть 1 потомок
+        //       3
+        //        \
+        //         8
+        //          \
+        //           38
+        //            \
+        //             50
+    TreeNode <int>* root12 = createTreeBST();
+    root10 = DeleteNode(root12, 38);
+    
+    std::ostringstream oss2;
+    
+    std::streambuf* p_cout_streambuf2 = std::cout.rdbuf(); 
+    std::cout.rdbuf(oss2.rdbuf());
+
+    Inorder(root12, visit_print);
+
+    std::cout.rdbuf(p_cout_streambuf2);
+
+    // тестируем наш метод
+    assert(oss.str() == "3 8 50 ");
+
+    //Ситуация 3. Удаляем узел у которого нет потомков (он является листом дерева)
+        //       4
+        //      / \
+        //     6   38
+        //    /     \
+        //   9       50
+    TreeNode <int>* root13 = createTreeBST2();
+    root10 = DeleteNode(root13, 9);
+
+    std::ostringstream oss3;
+
+    std::streambuf* p_cout_streambuf3 = std::cout.rdbuf();
+    std::cout.rdbuf(oss3.rdbuf());
+
+    Inorder(root13, visit_print);
+
+    std::cout.rdbuf(p_cout_streambuf3);
+
+    // тестируем наш метод
+    assert(oss3.str() == "6 4 38 50 ");
+}
+
+TEST(TestIterBST, TestIter)
+{
+    std::ostringstream oss;
+    BinSTree<int> T(createTreeBST());
+    BinSTree<int>::iteratorBST iter = T.begin();
+
+    std::streambuf* p_cout_streambuf = std::cout.rdbuf();
+    std::cout.rdbuf(oss.rdbuf());
+
+    
+    while (iter != T.end()) {
+        std::cout << *iter << " ";
+        ++iter;
+    }
+
+    std::cout.rdbuf(p_cout_streambuf);
+    assert(oss.str() == "3 8 38 50 ");
+
 }

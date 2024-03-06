@@ -1,9 +1,10 @@
-//@avtor Мирошин В. И.
-//Класс Итератора для бинарного дрерва поиска
+п»ї//@avtor РњРёСЂРѕС€РёРЅ Р’. Р.
+//РљР»Р°СЃСЃ РС‚РµСЂР°С‚РѕСЂР° РґР»СЏ Р±РёРЅР°СЂРЅРѕРіРѕ РґСЂРµСЂРІР° РїРѕРёСЃРєР°
 #pragma once
 #include <iostream>
 #include <stdlib.h>
 #include "iterstor.h"
+#include "AbsIterator.h"
 #include "treenode.h"
 #include "treelib.h"
 #include <stack>
@@ -13,96 +14,124 @@ template <class T>
 class BinSTree
 {
 private:
-	//указатели на корень и на текущий узел
+	//СѓРєР°Р·Р°С‚РµР»Рё РЅР° РєРѕСЂРµРЅСЊ Рё РЅР° С‚РµРєСѓС‰РёР№ СѓР·РµР»
 	TreeNode<T>* root;
 	TreeNode<T>* current;
 	
-	//число элементов дерева
+	//С‡РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ РґРµСЂРµРІР°
 	int size;
 
-	//используется деструктором, копирования и оператором присваивания
+	//РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґРµСЃС‚СЂСѓРєС‚РѕСЂРѕРј, РєРѕРїРёСЂРѕРІР°РЅРёСЏ Рё РѕРїРµСЂР°С‚РѕСЂРѕРј РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	TreeNode<T>* FindNode(const T& item) const;
 public:
 	BinSTree();
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂРѕРј
 	BinSTree(TreeNode<T>* tree);
 
-	// деструктор
-	~BinSTree() { DeleteTree(this->root); }
-	//Класс итератора
-	class iteratorBST {
-	private:
-		TreeNode<T>* current1;				//указатель на узел
-		std::stack<TreeNode<T>*> stack;		//использеум стек для хранения данных
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
+	BinSTree(const BinSTree<T>& tree);
 
-		//Добавить узел в стек 
-		void pushNodes(TreeNode<T>* node) {
-			while (node != nullptr) {
-				stack.push(node);
-				node = node->left;
-			}
-		}
+	//РѕРїРµСЂР°С‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ (РїСЂРёСЃРІР°РёРІР°РЅРёСЏ)
+	BinSTree<T>& operator= (const BinSTree<T>& rhs);
+
+	// РґРµСЃС‚СЂСѓРєС‚РѕСЂ
+	~BinSTree() { DeleteTree(this->root); }
+	
+
+	// РєР»Р°СЃСЃ РёС‚РµСЂР°С‚РѕСЂР° РґР»СЏ BinSTree (СЃРёРјРјРµС‚СЂРёС‡РЅС‹Р№ РѕР±С…РѕРґ, С‚.Рµ. РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ)
+	template<typename T>
+	class BinSTreeIterator : public AbsIterator<T> {
+	private:
+		TreeNode<T>* curr;  // РўРµРєСѓС‰РёР№ СѓР·РµР»
+		std::stack<TreeNode<T>*> path;  // РЎС‚РµРє РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РїСѓС‚Рё Рє С‚РµРєСѓС‰РµРјСѓ СѓР·Р»Сѓ
+
 	public:
-		//итератор
-		iteratorBST(TreeNode<T>* root) {
-			pushNodes(root);
-			if (!stack.empty()) {
-				current = stack.top();
-				stack.pop();
+		// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂРѕРј (РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР° РїРµСЂРµРґР°С‘С‚СЃСЏ РєРѕСЂРµРЅСЊ РґРµСЂРµРІР°)
+		// curr РїСЂРёСЃРІР°РёРІР°РµС‚СЃСЏ СЃР°РјС‹Р№ Р»РµРІС‹Р№ СѓР·РµР» (РЅР°РёРјРµРЅСЊС€РёР№)
+		BinSTreeIterator(TreeNode<T>* x) {
+			TreeNode<T>* tmp = x;
+			while (tmp != nullptr) {
+				path.push(tmp);
+				tmp = tmp->Left();
+			}
+			if (!path.empty()) {
+				curr = path.top();
+				path.pop();
 			}
 			else {
-				current = nullptr;
+				curr = nullptr;
 			}
+
 		}
-		//оператор сравнения 
-		bool operator!=(const iteratorBST& other) const {
-			return current1 != other.current1;
+
+		// РѕРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ
+		bool operator==(const AbsIterator<T>& o) const override {
+			return curr == dynamic_cast<const BinSTreeIterator<T>&>(o).curr;
 		}
-		//оператор вывода узла
-		T operator*() const {
-			return current1->data;
+
+		bool operator!=(const AbsIterator<T>& o) const override {
+			return !(curr == dynamic_cast<const BinSTreeIterator<T>&>(o).curr);
 		}
-		//оператор добавления узла 
-		iteratorBST& operator++() {
-			//если правого потомока нет 
-			if (current1->right != nullptr) {
-				pushNodes(current1->right);
-			}
-			//если стек не пустой  
-			if (!stack.empty()) {
-				current1 = stack.top();	//вернуть указательн на вершину
-				stack.pop();			//поместить значение в стек
-			}
-			else {		//иначе возвращаем, что стек пуст
-				current1 = nullptr;
+
+		// РѕРїРµСЂР°С‚РѕСЂ РґРѕСЃС‚СѓРїР° Рє РґР°РЅРЅС‹Рј
+		T operator*() const override {
+			//РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°РЅРЅС‹Рµ С‚РµРєСѓС‰РµРіРѕ СѓР·Р»Р°
+			return curr->Data();
+		}
+
+		// РѕРїРµСЂР°С‚РѕСЂ РїРµСЂРµС…РѕРґР° РЅР° СЃР»РµРґСѓСЋС‰РёР№ СѓР·РµР»
+		BinSTreeIterator& operator++() override {
+			if (curr != nullptr) {
+
+				// Р•СЃР»Рё С‚РµРєСѓС‰РёР№ СѓР·РµР» РёРјРµРµС‚ РїСЂР°РІРѕРіРѕ РїРѕС‚РѕРјРєР°, РёРґРµРј РІРїСЂР°РІРѕ
+				if (curr->Right() != nullptr) {
+					curr = curr->Right();
+
+					// РРґРµРј РІР»РµРІРѕ РґРѕ РїРѕСЃР»РµРґРЅРµРіРѕ Р»РµРІРѕРіРѕ РїРѕС‚РѕРјРєР°
+					while (curr->Left() != nullptr) {
+						path.push(curr);
+						curr = curr->Left();
+					}
+				}
+				// Р•СЃР»Рё С‚РµРєСѓС‰РёР№ СѓР·РµР» РЅРµ РёРјРµРµС‚ РїСЂР°РІРѕРіРѕ РїРѕС‚РѕРјРєР°, РёРґРµРј РІРІРµСЂС… РїРѕ СЃС‚РµРєСѓ
+				else if (!path.empty()) {
+					curr = path.top();
+					path.pop();
+				}
+				// Р•СЃР»Рё СЃС‚РµРє РїСѓСЃС‚ Рё РЅРµС‚ РїСЂР°РІРѕРіРѕ РїРѕС‚РѕРјРєР°, РґРѕСЃС‚РёРіРЅСѓС‚ РєРѕРЅРµС† РґРµСЂРµРІР°
+				else {
+					curr = nullptr;
+				}
 			}
 			return *this;
 		}
 	};
-	//итераторы, указывающие на начало и конец дерева соответственно
-	iteratorBST begin() {
-		return iteratorBST(root);
-	}
-	iteratorBST end() {
-		return iteratorBST(nullptr);
+
+	BinSTreeIterator<T> begin() const {
+		return BinSTreeIterator<T>(root);
 	}
 
+	BinSTreeIterator<T> end() const {
+		return BinSTreeIterator<T>(nullptr);
+	}
 
-		//стандартные методы обработки списков
-		int Find(const T& item) const;
-		void Insert(const T& item);
-		void Delete(const T& item);
-		void Update(const T& item);
-		void treevactor(std::vector<T>& vec);
+	//СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РјРµС‚РѕРґС‹ РѕР±СЂР°Р±РѕС‚РєРё СЃРїРёСЃРєРѕРІ
+	int Find(const T& item) const;
+	void Insert(const T& item);
+	void Delete(const T& item);
+	void ClearList();
+	void treevactor(std::vector<T>& vec);
 };
 
-//todo диструктор, оператор присваивания конструктор копировани, констр перемещения, оператор = присваивания перемещения 
+//todo РґРёСЃС‚СЂСѓРєС‚РѕСЂ, РѕРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРё, РѕРїРµСЂР°С‚РѕСЂ = РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
+
 template<class T>
 BinSTree<T>::BinSTree()
 {
 	TreeNode<T>* root = nullptr; TreeNode<T>* current = nullptr; int size = 0;
 }
 
-// конструктор с параметрами
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё
 template <typename T>
 BinSTree<T>::BinSTree(TreeNode<T>* tree)
 {
@@ -111,14 +140,48 @@ BinSTree<T>::BinSTree(TreeNode<T>* tree)
 	this->size = treeCount(this->root);
 }
 
-//искать item, если найден, присвоить данные узла параметру item
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
+template <typename T>
+BinSTree<T>::BinSTree(const BinSTree<T>& tree)
+{
+	this->root = CopyTree(tree.root);
+
+	//РїСЂРёСЃРІРѕРёС‚СЊ С‚РµРєСѓС‰РµРјСѓ СѓРєР°Р·Р°С‚РµР»СЋ Р·РЅР°С‡РµРЅРёРµ РєРѕСЂРЅСЏ Рё Р·Р°РґР°С‚СЊ СЂР°Р·РјРµСЂ РґРµСЂРµРІР°
+	this->current = this->root;
+	this->size = tree.size;
+}
+
+
+// РѕРїРµСЂР°С‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ (РїСЂРёСЃРІР°РёРІР°РЅРёСЏ)
+template <class T>
+BinSTree<T>& BinSTree<T>::operator= (const BinSTree<T>& rhs)
+{
+	// РЅРµР»СЊР·СЏ РєРѕРїРёСЂРѕРІР°С‚СЊ РґРµСЂРµРІРѕ РІ СЃР°РјРѕ СЃРµР±СЏ
+	if (this == &rhs)
+		return *this;
+
+	// РѕС‡РёСЃС‚РёС‚СЊ С‚РµРєСѓС‰РµРµ РґРµСЂРµРІРѕ
+	ClearList();
+
+	// СЃРєРѕРїРёСЂРѕРІР°С‚СЊ РЅРѕРІРѕРµ РґРµСЂРµРІРѕ РІ С‚РµРєСѓС‰РёР№ РѕР±СЉРµРєС‚
+	this->root = CopyTree(rhs.root);
+
+	// РїСЂРёСЃРІРѕРёС‚СЊ С‚РµРєСѓС‰РµРјСѓ СѓРєР°Р·Р°С‚РµР»СЋ Р·РЅР°С‡РµРЅРёРµ РєРѕСЂРЅСЏ Рё Р·Р°РґР°С‚СЊ СЂР°Р·РјРµСЂ РґРµСЂРµРІР°
+	this->current = this->root;
+	this->size = rhs.size;
+
+	// РІРѕР·РІСЂР°С‚РёС‚СЊ СЃСЃС‹Р»РєСѓ РЅР° С‚РµРєСѓС‰РёР№ РѕР±СЉРµРєС‚
+	return *this;
+}
+
+//РёСЃРєР°С‚СЊ item, РµСЃР»Рё РЅР°Р№РґРµРЅ, РїСЂРёСЃРІРѕРёС‚СЊ РґР°РЅРЅС‹Рµ СѓР·Р»Р° РїР°СЂР°РјРµС‚СЂСѓ item
 template<class T>
 int BinSTree<T>::Find(const T& item)const
 {
 	return SearchNode(this->root, item);
 }
 
-//вставить item в дерева поиска
+//РІСЃС‚Р°РІРёС‚СЊ item РІ РґРµСЂРµРІР° РїРѕРёСЃРєР°
 template<class T>
 void BinSTree<T>::Insert(const T& item)
 {
@@ -126,7 +189,7 @@ void BinSTree<T>::Insert(const T& item)
 	size = treeCount(this->root);
 }
 
-//если элемент находиться в дереве, то удалить его
+//РµСЃР»Рё СЌР»РµРјРµРЅС‚ РЅР°С…РѕРґРёС‚СЊСЃСЏ РІ РґРµСЂРµРІРµ, С‚Рѕ СѓРґР°Р»РёС‚СЊ РµРіРѕ
 template<class T>
 void BinSTree<T>::Delete(const T& item)
 {
@@ -134,37 +197,27 @@ void BinSTree<T>::Delete(const T& item)
 	size = treeCount(this->root);
 }
 
-template<class T>
-void BinSTree<T>::Update(const T& item)
-{
-	//если текущий узел определен и элемент данных (item) совпал
-	if (current != nullptr && current->data ==item)
-//с данными в том узле, переписать жэлемент данных в узел
-		current->data = item;
-	else
-		Insert(item);//иначе включить item в дерево
-}
 
-//поиск элемента данных в дереве, если найден вернуть адрес
-//совпавшего узела или указатель на его родителя иначе NULL
+//РїРѕРёСЃРє СЌР»РµРјРµРЅС‚Р° РґР°РЅРЅС‹С… РІ РґРµСЂРµРІРµ, РµСЃР»Рё РЅР°Р№РґРµРЅ РІРµСЂРЅСѓС‚СЊ Р°РґСЂРµСЃ
+//СЃРѕРІРїР°РІС€РµРіРѕ СѓР·РµР»Р° РёР»Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РµРіРѕ СЂРѕРґРёС‚РµР»СЏ РёРЅР°С‡Рµ NULL
 template<class T>
 TreeNode<T>* BinSTree<T>::FindNode(const T& item) const
 {
-	//пробежать по узлам дерева, начиная с корня
+	//РїСЂРѕР±РµР¶Р°С‚СЊ РїРѕ СѓР·Р»Р°Рј РґРµСЂРµРІР°, РЅР°С‡РёРЅР°СЏ СЃ РєРѕСЂРЅСЏ
 	TreeNode<T>* t = root;
 
-	//у корня нет родителя
+	//Сѓ РєРѕСЂРЅСЏ РЅРµС‚ СЂРѕРґРёС‚РµР»СЏ
 	TreeNode<T>* parent = nullptr;
 
-	//прерываться на пустом дереве
+	//РїСЂРµСЂС‹РІР°С‚СЊСЃСЏ РЅР° РїСѓСЃС‚РѕРј РґРµСЂРµРІРµ
 	while (t != nullptr)
 	{
-		//останавливается по совпадении
+		//РѕСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РїРѕ СЃРѕРІРїР°РґРµРЅРёРё
 		if (item == t->data)
 			break;
 		else
 		{
-		//обновить родительский указатель и идти направо или влево
+		//РѕР±РЅРѕРІРёС‚СЊ СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ СѓРєР°Р·Р°С‚РµР»СЊ Рё РёРґС‚Рё РЅР°РїСЂР°РІРѕ РёР»Рё РІР»РµРІРѕ
 			parent = t;
 			if (item < t->data)
 				t = t->left;
@@ -172,11 +225,11 @@ TreeNode<T>* BinSTree<T>::FindNode(const T& item) const
 				t = t->right;
 		}
 	}
-	//возвратить указатель на узел иначе nillptr если не найден
+	//РІРѕР·РІСЂР°С‚РёС‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СѓР·РµР» РёРЅР°С‡Рµ nillptr РµСЃР»Рё РЅРµ РЅР°Р№РґРµРЅ
 	return t;
 }
 
-//Преобразование бинарного поиска дерева в вектор
+//РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ Р±РёРЅР°СЂРЅРѕРіРѕ РїРѕРёСЃРєР° РґРµСЂРµРІР° РІ РІРµРєС‚РѕСЂ
 template< typename T >
 void BinSTree<T>::treevactor(std::vector<T>& vec) {
 	
@@ -185,4 +238,14 @@ void BinSTree<T>::treevactor(std::vector<T>& vec) {
 		vec.push_back(root->data);
 		vactornode(root->right, vec);
 	}
+}
+
+
+// РѕС‡РёСЃС‚РєР° РґРµСЂРµРІР°
+template <typename T>
+void BinSTree<T>::ClearList() {
+	deleteTree(this->root);
+	this->root = nullptr;
+	this->current = nullptr;
+	this->size = 0;
 }

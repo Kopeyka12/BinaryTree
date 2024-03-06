@@ -130,6 +130,7 @@
     <ClCompile Include="laba2.1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbsIterator.h" />
     <ClInclude Include="binstree.h" />
     <ClInclude Include="treelib.h" />
     <ClInclude Include="treenode.h" />

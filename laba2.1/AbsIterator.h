@@ -1,4 +1,6 @@
 #pragma once
+//@avtor Мирошин В. И.
+//Абстрактный класс Итератора 
 template <typename T>
 // абстрактный класс итератора
 class AbsIterator

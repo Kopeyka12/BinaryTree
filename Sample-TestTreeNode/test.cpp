@@ -240,9 +240,6 @@ TEST(TestTreeNode, TestLevelScan) {
 }
 //ф-ия обхода LRN
 
-
-
-
 TreeNode<int>* createTreeBST() {
 
     //создаётся указатели на узлы дерева 
@@ -270,11 +267,11 @@ TreeNode<int>* createTreeBST2() {
     TreeNode<int> * root;
 
 
-    //       4
+    //       9
     //      / \
     //     6   38
     //    /     \
-    //   9       50
+    //   4       50
 
     root = new TreeNode<int>(9);
     root->left = new TreeNode<int>(6);
@@ -539,7 +536,7 @@ TEST(TestTreeNode, TestDeleteNode) {
         // 1   6
         //    /
         //   4
-    TreeNode <int>* root10 = createTree3();
+    TreeNode <int>* root10 = createTree4();
     root10 = DeleteNode(root10, 3);
     
     std::ostringstream oss;
@@ -575,16 +572,16 @@ TEST(TestTreeNode, TestDeleteNode) {
     std::cout.rdbuf(p_cout_streambuf2);
 
     // тестируем наш метод
-    assert(oss.str() == "3 8 50 ");
+    assert(oss2.str() == "3 8 50 ");
 
     //Ситуация 3. Удаляем узел у которого нет потомков (он является листом дерева)
-        //       4
+        //       9
         //      / \
         //     6   38
         //    /     \
-        //   9       50
+        //   4       50
     TreeNode <int>* root13 = createTreeBST2();
-    root10 = DeleteNode(root13, 9);
+    root10 = DeleteNode(root13, 4);
 
     std::ostringstream oss3;
 
@@ -596,25 +593,279 @@ TEST(TestTreeNode, TestDeleteNode) {
     std::cout.rdbuf(p_cout_streambuf3);
 
     // тестируем наш метод
-    assert(oss3.str() == "6 4 38 50 ");
+    assert(oss3.str() == "6 9 38 50 ");
 }
 
-TEST(TestIterBST, TestIter)
-{
-    std::ostringstream oss;
-    BinSTree<int> T(createTreeBST());
-    BinSTree<int>::iteratorBST iter = T.begin();
 
-    std::streambuf* p_cout_streambuf = std::cout.rdbuf();
-    std::cout.rdbuf(oss.rdbuf());
+
+// тестирование метода begin (наименьший элемент дерева)
+TEST(TestBSTIterator, TestBegin) {
+
+    // создаётся дерево
+    //       8
+    //     /   \
+    //    3     10
+    //   / \     \
+    //  1   6     14
+    //     / \    /
+    //    4   7  13
+    TreeNode<int>* root1 = createTree1();
+    BinSTree<int> tr1(root1);
+
+    BinSTree<int>::BinSTreeIterator<int> it1 = tr1.begin();
+    EXPECT_EQ(*it1, 1);
+
+
+    //       3
+    //        \
+    //         8
+    //          \
+    //           50
+    //            \
+    //             38
+    TreeNode<int>* root2 = createTree2();
+    BinSTree<int> tr2(root2);
+
+    BinSTree<int>::BinSTreeIterator<int> it2 = tr2.begin();
+    EXPECT_EQ(*it2, 3);
+
+    //       6
+    //        \
+    //         9
+    //          \
+    //           50
+    //          /  
+    //         38
+    //           \
+    //            4
+    TreeNode<int>* root3 = createTree3();
+    BinSTree<int> tr3(root3);
+
+    BinSTree<int>::BinSTreeIterator<int> it3 = tr3.begin();
+    EXPECT_EQ(*it3, 6);
+
+     //     8
+     //    / \
+     //   3   10
+     //  / \
+     // 1   6
+     //    /
+     //   4
+    TreeNode<int>* root4 = createTree4();
+    BinSTree<int> tr4(root4);
+
+    BinSTree<int>::BinSTreeIterator<int> it4 = tr4.begin();
+    EXPECT_EQ(*it4, 1);
+
+    // пустое дерево
+    TreeNode<int>* root5 = nullptr;
+    BinSTree<int> tr5(root5);
+
+    BinSTree<int>::BinSTreeIterator<int> it5 = tr5.begin();
+    EXPECT_EQ(it5, BinSTree<int>::BinSTreeIterator<int>(nullptr));
+
+    // дерево с одним узлом
+    TreeNode<int>* root6 = new TreeNode<int>(2);
+    BinSTree<int> tr6(root6);
+
+    BinSTree<int>::BinSTreeIterator<int> it6 = tr6.begin();
+    EXPECT_EQ(*it6, 2);
+}
+
+// тестирование оператора * и ++
+TEST(TestBSTIterator, TestData) {
+
+    // создаётся дерево
+    //       8
+    //     /   \
+    //    3     10
+    //   / \     \
+    //  1   6     14
+    //     / \    /
+    //    4   7  13
+    TreeNode<int>* root1 = createTree1();
+    BinSTree<int> tr1(root1);
+
+    std::vector<int> arr, arr1 = { 1, 3, 4, 6, 7, 8, 10, 13, 14 };
+
+    for (BinSTree<int>::BinSTreeIterator<int> it1 = tr1.begin(); it1 != tr1.end(); ++it1) {
+        arr.push_back(*it1);
+    }
+    EXPECT_EQ(arr, arr1);
+    arr.clear(); arr1.clear();
+
+    //       3
+    //        \
+    //         8
+    //          \
+    //           50
+    //            \
+    //             38
+    TreeNode<int>* root2 = createTree2();
+    BinSTree<int> tr2(root2);
+
+    arr1 = { 3, 8, 50, 38 };
+
+    for (BinSTree<int>::BinSTreeIterator<int> it2 = tr2.begin(); it2 != tr2.end(); ++it2) {
+        arr.push_back(*it2);
+    }
+    EXPECT_EQ(arr, arr1);
+    arr.clear(); arr1.clear();
 
     
-    while (iter != T.end()) {
-        std::cout << *iter << " ";
-        ++iter;
-    }
+    //       6
+    //        \
+    //         9
+    //          \
+    //           50
+    //          /  
+    //         38
+    //           \
+    //            4
+    TreeNode<int>* root3 = createTree3();
+    BinSTree<int> tr3(root3);
 
-    std::cout.rdbuf(p_cout_streambuf);
-    assert(oss.str() == "3 8 38 50 ");
+    arr1 = { 6, 9, 38, 4, 50 };
+
+    for (BinSTree<int>::BinSTreeIterator<int> it3 = tr3.begin(); it3 != tr3.end(); ++it3) {
+        arr.push_back(*it3);
+    }
+    EXPECT_EQ(arr, arr1);
+    arr.clear(); arr1.clear();
+
+    
+    //     8
+    //    / \
+    //   3   10
+    //  / \
+    // 1   6
+    //    /
+    //   4
+    TreeNode<int>* root4 = createTree4();
+    BinSTree<int> tr4(root4);
+
+    arr1 = { 1,3,4,6,8,10 };
+
+    for (BinSTree<int>::BinSTreeIterator<int> it4 = tr4.begin(); it4 != tr3.end(); ++it4) {
+        arr.push_back(*it4);
+    }
+    EXPECT_EQ(arr, arr1);
+    arr.clear(); arr1.clear();
+
+    // пустое дерево
+    TreeNode<int>* root5 = nullptr;
+    BinSTree<int> tr5(root5);
+
+    arr1 = {  };
+
+    for (BinSTree<int>::BinSTreeIterator<int> it5 = tr5.begin(); it5 != tr5.end(); ++it5) {
+        arr.push_back(*it5);
+    }
+    EXPECT_EQ(arr, arr1);
+    arr.clear(); arr1.clear();
+
+
+    // дерево с одним узлом
+    TreeNode<int>* root6 = new TreeNode<int>(2);
+    BinSTree<int> tr6(root6);
+
+    arr1 = { 2 };
+
+    for (BinSTree<int>::BinSTreeIterator<int> it6 = tr6.begin(); it6 != tr6.end(); ++it6) {
+        arr.push_back(*it6);
+    }
+    EXPECT_EQ(arr, arr1);
+    arr.clear(); arr1.clear();
+
+}
+
+// тестирование оператора == и !=
+TEST(TestBSTIterator, TestEqual) {
+
+    // создаётся дерево
+    //       8
+    //     /   \
+    //    3     10
+    //   / \     \
+    //  1   6     14
+    //     / \    /
+    //    4   7  13
+    TreeNode<int>* root1 = createTree1();
+    BinSTree<int> tr1(root1);
+
+    BinSTree<int>::BinSTreeIterator<int> it1 = tr1.begin();
+    BinSTree<int>::BinSTreeIterator<int> it2 = tr1.begin();
+    EXPECT_TRUE(it1 == it2);
+    ++it1;
+    EXPECT_TRUE(it1 != it2);
+
+    
+    //       3
+    //        \
+    //         8
+    //          \
+    //           50
+    //            \
+    //             38
+    TreeNode<int>* root2 = createTree2();
+    BinSTree<int> tr2(root2);
+
+    it1 = tr2.begin();
+    it2 = tr2.begin();
+    EXPECT_TRUE(it1 == it2);
+    ++it1;
+    EXPECT_TRUE(it1 != it2);
+
+    //       6
+    //        \
+    //         9
+    //          \
+    //           50
+    //          /  
+    //         38
+    //           \
+    //            4
+    TreeNode<int>* root3 = createTree3();
+    BinSTree<int> tr3(root3);
+
+    it1 = tr3.begin();
+    it2 = tr3.begin();
+    EXPECT_TRUE(it1 == it2);
+    ++it1;
+    EXPECT_TRUE(it1 != it2);
+
+    //     8
+    //    / \
+    //   3   10
+    //  / \
+    // 1   6
+    //    /
+    //   4
+    TreeNode<int>* root4 = createTree4();
+    BinSTree<int> tr4(root4);
+
+    it1 = tr4.begin();
+    it2 = tr4.begin();
+    EXPECT_TRUE(it1 == it2);
+    ++it1;
+    EXPECT_TRUE(it1 != it2);
+
+    // пустое дерево
+    TreeNode<int>* root5 = nullptr;
+    BinSTree<int> tr5(root5);
+
+    it1 = tr5.begin();
+    it2 = tr5.begin();
+    EXPECT_TRUE(it1 == it2);
+
+    // дерево с одним узлом
+    TreeNode<int>* root6 = new TreeNode<int>(2);
+    BinSTree<int> tr6(root6);
+
+    it1 = tr6.begin();
+    it2 = tr6.begin();
+    EXPECT_TRUE(it1 == it2);
+    ++it1;
+    EXPECT_TRUE(it1 != it2);
 
 }
